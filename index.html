@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Codex Regalis | Archivo Dinástico</title>
     
-    <!-- Tipografías Reales: Cinzel Decorative para títulos iluminados, Cormorant Garamond para manuscrito, Space Mono para telemetría moderna -->
+    <!-- Tipografías Reales: Cinzel Decorative para títulos iluminados, Cormorant Garamond para manuscrito, Space Mono para códigos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -35,7 +35,6 @@
             --color-rubrica: #9e2a2b;
             --rubrica-claro: #c13839;
             --color-estado: #1b4332;
-            --luz-cuantica: #00b4d8;
             --cristal-panel: rgba(243, 234, 216, 0.76);
             --cristal-barra: rgba(243, 234, 216, 0.90);
 
@@ -63,7 +62,6 @@
             --color-rubrica: #8c1d40;
             --rubrica-claro: #b52b56;
             --color-estado: #5c2751;
-            --luz-cuantica: #e07a5f;
             --cristal-panel: rgba(242, 230, 234, 0.78);
             --cristal-barra: rgba(242, 230, 234, 0.92);
         }
@@ -85,7 +83,6 @@
             --color-rubrica: #8f3b2e;
             --rubrica-claro: #b34d3d;
             --color-estado: #1b5e43;
-            --luz-cuantica: #2ec4b6;
             --cristal-panel: rgba(237, 242, 236, 0.78);
             --cristal-barra: rgba(237, 242, 236, 0.92);
         }
@@ -107,7 +104,6 @@
             --color-rubrica: #274c77;
             --rubrica-claro: #3a6ea5;
             --color-estado: #1d4e89;
-            --luz-cuantica: #0096c7;
             --cristal-panel: rgba(232, 238, 245, 0.78);
             --cristal-barra: rgba(232, 238, 245, 0.92);
         }
@@ -146,7 +142,7 @@
             position: fixed;
             inset: 0;
             z-index: 1;
-            opacity: 0.35;
+            opacity: 0.28;
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.28'/%3E%3C/svg%3E");
         }
@@ -157,7 +153,7 @@
             border: 1px solid var(--metal-principal);
             pointer-events: none;
             z-index: 5;
-            box-shadow: inset 0 0 30px rgba(var(--metal-rgb), 0.16);
+            box-shadow: inset 0 0 26px rgba(var(--metal-rgb), 0.14);
             transition: border-color 0.6s ease, box-shadow 0.6s ease;
         }
 
@@ -165,14 +161,14 @@
             content: '';
             position: absolute;
             inset: 4px;
-            border: 1px solid rgba(var(--soberano-rgb), 0.25);
+            border: 1px solid rgba(var(--soberano-rgb), 0.22);
             transition: border-color 0.6s ease;
         }
 
         .corner-ornament {
             position: fixed;
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             z-index: 6;
             pointer-events: none;
             border-color: var(--metal-principal);
@@ -202,10 +198,9 @@
             width: 58vh;
             height: 58vh;
             border-radius: 50%;
-            border: 1px dashed rgba(var(--metal-rgb), 0.48);
-            box-shadow: 0 0 60px rgba(var(--metal-rgb), 0.16), inset 0 0 40px rgba(var(--soberano-rgb), 0.08);
+            border: 1px solid rgba(var(--metal-rgb), 0.35);
+            box-shadow: 0 0 50px rgba(var(--metal-rgb), 0.12), inset 0 0 35px rgba(var(--soberano-rgb), 0.06);
             pointer-events: none;
-            animation: spinSlow 90s linear infinite;
             transition: border-color 0.6s ease, box-shadow 0.6s ease;
         }
 
@@ -215,13 +210,8 @@
             inset: 18px;
             border-radius: 50%;
             border: 1px solid var(--color-rubrica);
-            opacity: 0.28;
+            opacity: 0.22;
             transition: border-color 0.6s ease;
-        }
-
-        @keyframes spinSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         model-viewer {
@@ -343,34 +333,39 @@
             box-shadow: 0 2px 10px rgba(var(--soberano-rgb), 0.3);
         }
 
-        /* Telemetría en esquina superior derecha */
-        .quantum-telemetry {
-            text-align: right;
-            font-family: var(--font-tech);
-            font-size: 0.68rem;
-            color: var(--color-soberano);
-            background: var(--cristal-panel);
-            backdrop-filter: blur(8px);
-            padding: 7px 12px;
-            border: 1px solid rgba(var(--metal-rgb), 0.55);
-            border-right: 3px solid var(--luz-cuantica);
+        /* Medallón Heráldico Real (Reemplazo del escáner óptico en esquina superior derecha) */
+        .heraldic-crest-box {
+            pointer-events: auto;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, var(--color-soberano), var(--color-soberano-oscuro));
+            border: 2px solid var(--metal-principal);
+            outline: 1px solid rgba(var(--metal-rgb), 0.55);
+            outline-offset: 3px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18), inset 0 0 12px rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
             transition: all 0.6s ease;
         }
 
-        .telemetry-live {
-            display: inline-block;
-            width: 7px;
-            height: 7px;
-            background-color: var(--luz-cuantica);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--luz-cuantica);
-            margin-right: 6px;
-            animation: pulseGlow 2s infinite;
+        .heraldic-crest-box img {
+            width: 82%;
+            height: 82%;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.45));
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.35; }
+        .heraldic-fallback-svg {
+            width: 34px;
+            height: 34px;
+            fill: var(--metal-brillo);
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+            transition: fill 0.6s ease;
         }
 
         /* Panel Lateral: Hoja de Manuscrito con Selector Dual de Catálogos y Paso de Página */
@@ -624,7 +619,7 @@
         }
 
         @media (max-width: 900px) {
-            .quantum-telemetry { display: none; }
+            .heraldic-crest-box { width: 44px; height: 44px; }
             .manuscript-wrapper { max-width: 100%; }
             .manuscript-card { padding: 14px 16px; }
             .royal-controls { flex-wrap: wrap; justify-content: center; }
@@ -668,17 +663,17 @@
     <!-- MÓDULO 4: INTERFAZ HUD DE MANUSCRITO REAL -->
     <div class="royal-hud">
         
-        <!-- Cabecera con las 4 Temporadas -->
+        <!-- Cabecera con las 4 Temporadas y Medallón Heráldico -->
         <header class="codex-header">
             <div class="crest-block">
                 <div class="royal-seal" id="royal-seal" title="Sello Imperial">I</div>
                 <div class="title-group">
                     <h1>Codex Regalis</h1>
-                    <div class="rubric" id="season-subtitle">Temporada I &bull; Vitela Imperial (Sol Invictus)</div>
+                    <div class="rubric" id="season-subtitle">Temporada I &bull; Vitela Imperial</div>
                 </div>
             </div>
 
-            <!-- Selector de las 4 Temporadas (cada una cambia la paleta de color real y lee su JSON) -->
+            <!-- Selector de las 4 Temporadas -->
             <div class="season-selector" id="season-selector" role="tablist" aria-label="Temporadas Reales">
                 <button class="btn-season active" onclick="CodexApp.selectSeason(0, this)">I. Sol Invictus</button>
                 <button class="btn-season" onclick="CodexApp.selectSeason(1, this)">II. Purpura Regia</button>
@@ -686,9 +681,14 @@
                 <button class="btn-season" onclick="CodexApp.selectSeason(3, this)">IV. Caelum Noctis</button>
             </div>
 
-            <div class="quantum-telemetry">
-                <div><span class="telemetry-live"></span>ESCÁNER ETER-ÓPTICO ACTIVO</div>
-                <div id="orbit-readout" style="margin-top:3px; color: var(--tinta-secundaria);">AZIMUT: 35.0° | ELEV: 72.0°</div>
+            <!-- Medallón Heráldico Real: sube 'assets/escudo-real.png' para mostrar tu propio escudo o usa el emblema imperial por defecto -->
+            <div class="heraldic-crest-box" title="Escudo de Armas Real">
+                <img id="heraldic-img" src="assets/escudo-real.png" alt="Escudo Real"
+                     onerror="this.style.display='none'; document.getElementById('heraldic-svg').style.display='block';">
+                <svg id="heraldic-svg" class="heraldic-fallback-svg" style="display:none;" viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M12 10h40v22c0 13.5-8.5 22.5-20 26C20.5 54.5 12 45.5 12 32V10zm6 6v15c0 9.5 6 16.2 14 19.2 8-3 14-9.7 14-19.2V16H18z"/>
+                    <path d="M22 29l4-8 6 6 6-6 4 8v4H22v-4zm0 6h20v3H22v-3z"/>
+                </svg>
             </div>
         </header>
 
@@ -737,7 +737,7 @@
                 <!-- Navegación Paso de Página dentro del Catálogo Activo -->
                 <div class="folio-pagination">
                     <button class="btn-page" onclick="CodexApp.prevPage()">&#9666; Anterior</button>
-                    <span class="folio-counter" id="folio-counter">I / I</span>
+                    <span class="folio-counter" id="folio-counter">I / II</span>
                     <button class="btn-page" onclick="CodexApp.nextPage()">Siguiente &#9656;</button>
                 </div>
 
@@ -756,57 +756,60 @@
     </div>
 
     <!-- ==========================================================================
-         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (LECTOR DE JSON EXTERNOS)
+         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (LECTURA DINÁMICA DESDE /data/*.json)
          ========================================================================== -->
     <script>
         const CodexApp = (() => {
-            // 1. CONFIGURACIÓN DE RUTAS EXTERNAS (ÍNDICE MAESTRO + 4 TEMPORADAS JSON)
+            // Rutas de datos externos
             const CONFIG = {
-                indiceMaestroUrl: 'data/temporadas.json',
-                rutasPorDefecto: [
-                    { id: 0, sello: "I", nombreBoton: "I. Sol Invictus", subtitulo: "Temporada I • Vitela Imperial (Sol Invictus)", archivo: "data/temporada-1.json" },
-                    { id: 1, sello: "II", nombreBoton: "II. Purpura Regia", subtitulo: "Temporada II • Pórfido Imperial (Purpura Regia)", archivo: "data/temporada-2.json" },
-                    { id: 2, sello: "III", nombreBoton: "III. Viridis Aether", subtitulo: "Temporada III • Malaquita y Marfil (Viridis Aether)", archivo: "data/temporada-3.json" },
-                    { id: 3, sello: "IV", nombreBoton: "IV. Caelum Noctis", subtitulo: "Temporada IV • Lapislázuli y Plata (Caelum Noctis)", archivo: "data/temporada-4.json" }
-                ]
+                indiceTemporadasUrl: 'data/temporadas.json'
             };
 
-            // Respaldo mínimo en caso de abrir el HTML sin servidor o antes de subir los JSON
-            const fallbackCatalogos = {
-                libros: [
-                    {
-                        folio: "FOLIO I • CÓDICE ILUMINADO",
-                        codigo: "[0x1A-LIBER]",
-                        titulo: "Grimorio del Sol Invicto",
-                        inicial: "E",
-                        descripcion: "scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar.",
-                        material: "VITELA / ORO 24K",
-                        estado: "EDICIÓN MAESTRA",
-                        modeloGlb: "reliquia_real.glb",
-                        gumroadUrl: "https://gumroad.com",
-                        youtubeUrl: "https://youtube.com",
-                        orbita: "35deg 72deg 4.2m"
-                    }
-                ],
-                arte: [
-                    {
-                        folio: "PIEZA I • ARTE REGIO",
-                        codigo: "[0x1A-ARS]",
-                        titulo: "Orbe de la Corona Eterna",
-                        inicial: "F",
-                        descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta escultura custodia los anillos de resonancia astral del imperio.",
-                        material: "ORO 24K / OBSIDIANA",
-                        estado: "PIEZA ÚNICA",
-                        modeloGlb: "reliquia_real.glb",
-                        gumroadUrl: "https://gumroad.com",
-                        youtubeUrl: "https://youtube.com",
-                        orbita: "35deg 72deg 4.2m"
-                    }
-                ]
+            // Respaldo mínimo en caso de abrir el HTML sin servidor o antes de subir /data/
+            const fallbackIndice = [
+                { id: 0, sello: "I", boton: "I. Sol Invictus", subtitulo: "Temporada I • Vitela Imperial (Sol Invictus)", archivo: "data/temporada-1.json" },
+                { id: 1, sello: "II", boton: "II. Purpura Regia", subtitulo: "Temporada II • Pórfido Imperial (Purpura Regia)", archivo: "data/temporada-2.json" },
+                { id: 2, sello: "III", boton: "III. Viridis Aether", subtitulo: "Temporada III • Malaquita y Marfil (Viridis Aether)", archivo: "data/temporada-3.json" },
+                { id: 3, sello: "IV", boton: "IV. Caelum Noctis", subtitulo: "Temporada IV • Lapislázuli y Plata (Caelum Noctis)", archivo: "data/temporada-4.json" }
+            ];
+
+            const fallbackTemporada = {
+                catalogos: {
+                    libros: [
+                        {
+                            folio: "FOLIO I • CÓDICE ILUMINADO",
+                            codigo: "[0x1A-LIBER]",
+                            titulo: "Grimorio del Sol Invicto",
+                            inicial: "E",
+                            descripcion: "scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.",
+                            material: "VITELA / ORO 24K",
+                            estado: "EDICIÓN MAESTRA",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com",
+                            youtubeUrl: "https://youtube.com",
+                            orbita: "35deg 72deg 4.2m"
+                        }
+                    ],
+                    arte: [
+                        {
+                            folio: "PIEZA I • ARTE REGIO",
+                            codigo: "[0x1A-ARS]",
+                            titulo: "Orbe de la Corona Eterna",
+                            inicial: "F",
+                            descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta escultura custodia los anillos de resonancia astral del imperio.",
+                            material: "ORO 24K / OBSIDIANA",
+                            estado: "PIEZA ÚNICA",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com",
+                            youtubeUrl: "https://youtube.com",
+                            orbita: "35deg 72deg 4.2m"
+                        }
+                    ]
+                }
             };
 
-            // Estado en memoria y caché de temporadas descargadas
-            let indiceTemporadas = [...CONFIG.rutasPorDefecto];
+            // Estado y Caché en memoria
+            let temporadasMeta = [];
             const cacheTemporadas = {};
             let currentSeasonIdx = 0;
             let currentCatalogType = 'libros'; // 'libros' | 'arte'
@@ -815,7 +818,6 @@
 
             // Referencias al DOM
             const viewer = document.getElementById('royal-viewer');
-            const readout = document.getElementById('orbit-readout');
             const codexWrapper = document.getElementById('codex-wrapper');
             const codexPanel = document.getElementById('codex-panel');
 
@@ -827,7 +829,7 @@
 
             function toRoman(num) {
                 const romans = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
-                return romans[num - 1] || num;
+                return romans[num - 1] || String(num);
             }
 
             // Aplicar propiedades físicas de Oro 24k al modelo 3D cargado
@@ -870,111 +872,89 @@
                 }
             }
 
-            // Cargar el índice maestro (data/temporadas.json) y luego la Temporada I
-            async function cargarIndiceMaestro() {
+            // Cargar índice maestro de temporadas
+            async function cargarIndiceTemporadas() {
                 try {
-                    const respuesta = await fetch(CONFIG.indiceMaestroUrl);
-                    if (respuesta.ok) {
-                        const data = await respuesta.json();
-                        if (Array.isArray(data.temporadas) && data.temporadas.length > 0) {
-                            indiceTemporadas = data.temporadas;
-                            actualizarBotonesTemporadas();
-                        }
-                    }
-                } catch (e) {
-                    console.info('Usando configuración de rutas por defecto para temporadas.');
+                    const resp = await fetch(CONFIG.indiceTemporadasUrl);
+                    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                    const data = await resp.json();
+                    temporadasMeta = Array.isArray(data.temporadas) ? data.temporadas : fallbackIndice;
+                } catch (err) {
+                    console.warn('Usando índice de temporadas de respaldo:', err);
+                    temporadasMeta = fallbackIndice;
                 }
-
-                await cargarDatosTemporada(0);
-                renderItem(false);
+                renderBotonesTemporada();
             }
 
-            function actualizarBotonesTemporadas() {
-                const contenedor = document.getElementById('season-selector');
-                if (!contenedor) return;
-                contenedor.innerHTML = '';
-                indiceTemporadas.forEach((temp, idx) => {
+            // Construir pestañas de temporadas dinámicamente desde temporadas.json
+            function renderBotonesTemporada() {
+                const container = document.getElementById('season-selector');
+                if (!container || !temporadasMeta.length) return;
+                container.innerHTML = '';
+
+                temporadasMeta.forEach((temp, idx) => {
                     const btn = document.createElement('button');
                     btn.className = 'btn-season' + (idx === currentSeasonIdx ? ' active' : '');
-                    btn.textContent = temp.nombreBoton;
+                    btn.textContent = temp.boton;
                     btn.onclick = () => selectSeason(idx, btn);
-                    contenedor.appendChild(btn);
+                    container.appendChild(btn);
                 });
             }
 
-            // Descargar y cachear el JSON específico de cada temporada (Lazy Loading)
-            async function cargarDatosTemporada(seasonIdx) {
+            // Cargar JSON específico de una temporada (Lazy Loading + Caché)
+            async function obtenerDatosTemporada(seasonIdx) {
                 if (cacheTemporadas[seasonIdx]) {
                     return cacheTemporadas[seasonIdx];
                 }
 
-                const meta = indiceTemporadas[seasonIdx];
-                if (!meta || !meta.archivo) {
-                    cacheTemporadas[seasonIdx] = fallbackCatalogos;
-                    return fallbackCatalogos;
-                }
+                const meta = temporadasMeta[seasonIdx];
+                if (!meta || !meta.archivo) return fallbackTemporada;
 
                 try {
-                    const respuesta = await fetch(meta.archivo);
-                    if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-                    const jsonTemporada = await respuesta.json();
-                    const catalogosNormalizados = jsonTemporada.catalogos || jsonTemporada;
-                    cacheTemporadas[seasonIdx] = catalogosNormalizados;
-                    return catalogosNormalizados;
-                } catch (error) {
-                    console.warn(`No se pudo leer ${meta.archivo}, usando respaldo.`, error);
-                    cacheTemporadas[seasonIdx] = fallbackCatalogos;
-                    return fallbackCatalogos;
+                    const resp = await fetch(meta.archivo);
+                    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                    const data = await resp.json();
+                    cacheTemporadas[seasonIdx] = data;
+                    return data;
+                } catch (err) {
+                    console.warn(`No se pudo cargar ${meta.archivo}, usando respaldo:`, err);
+                    cacheTemporadas[seasonIdx] = fallbackTemporada;
+                    return fallbackTemporada;
                 }
             }
 
-            function init() {
-                if (!viewer) return;
+            async function init() {
+                if (viewer) {
+                    viewer.addEventListener('load', () => {
+                        aplicarOro24K();
+                        viewer.classList.remove('model-transitioning');
+                    });
+                }
 
-                viewer.addEventListener('load', () => {
-                    aplicarOro24K();
-                    viewer.classList.remove('model-transitioning');
-                });
-
-                viewer.addEventListener('camera-change', () => {
-                    const orbit = viewer.getCameraOrbit();
-                    const thetaDeg = (orbit.theta * (180 / Math.PI)).toFixed(1);
-                    const phiDeg = (orbit.phi * (180 / Math.PI)).toFixed(1);
-                    if (readout) {
-                        readout.textContent = `AZIMUT: ${thetaDeg}° | ELEV: ${phiDeg}°`;
-                    }
-                });
-
-                cargarIndiceMaestro();
+                await cargarIndiceTemporadas();
+                await aplicarTemporada(0, false);
             }
 
-            // Cambiar de Temporada (Cambia la Paleta de Color + Carga su JSON correspondiente)
+            async function aplicarTemporada(seasonIdx, animate = true) {
+                const meta = temporadasMeta[seasonIdx] || fallbackIndice[0];
+                document.body.setAttribute('data-season', String(seasonIdx));
+                document.getElementById('royal-seal').textContent = meta.sello;
+                document.getElementById('season-subtitle').textContent = meta.subtitulo;
+
+                const datosTemporada = await obtenerDatosTemporada(seasonIdx);
+                renderItem(datosTemporada, animate);
+            }
+
+            // Cambiar de Temporada
             async function selectSeason(seasonIdx, btnElement) {
                 if (seasonIdx === currentSeasonIdx || isAnimating) return;
                 currentSeasonIdx = seasonIdx;
                 currentPageIdx = 0;
 
-                document.body.setAttribute('data-season', String(seasonIdx));
-
                 document.querySelectorAll('.season-selector .btn-season').forEach(btn => btn.classList.remove('active'));
                 if (btnElement) btnElement.classList.add('active');
 
-                const meta = indiceTemporadas[currentSeasonIdx];
-                if (meta) {
-                    document.getElementById('royal-seal').textContent = meta.sello;
-                    document.getElementById('season-subtitle').textContent = meta.subtitulo;
-                }
-
-                isAnimating = true;
-                codexPanel.classList.add('page-turning');
-
-                await cargarDatosTemporada(seasonIdx);
-
-                setTimeout(() => {
-                    renderItem(false);
-                    codexPanel.classList.remove('page-turning');
-                    setTimeout(() => { isAnimating = false; }, 350);
-                }, 260);
+                await aplicarTemporada(seasonIdx, true);
             }
 
             // Cambiar entre Catálogo de Libros y Catálogo de Piezas de Arte
@@ -986,15 +966,18 @@
                 document.getElementById('tab-libros').classList.toggle('active', type === 'libros');
                 document.getElementById('tab-arte').classList.toggle('active', type === 'arte');
 
-                renderItem(true);
+                const datosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackTemporada;
+                renderItem(datosTemporada, true);
             }
 
             // Renderizar la pieza o libro actual con transición de paso de página
-            function renderItem(animate = true) {
-                const catalogosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackCatalogos;
-                const listaActual = catalogosTemporada[currentCatalogType] || [];
+            function renderItem(datosTemporada, animate = true) {
+                const catalogos = datosTemporada.catalogos || fallbackTemporada.catalogos;
+                const listaActual = catalogos[currentCatalogType] || [];
+                if (!listaActual.length) return;
+
+                if (currentPageIdx >= listaActual.length) currentPageIdx = 0;
                 const item = listaActual[currentPageIdx];
-                if (!item) return;
 
                 const updateDOM = () => {
                     document.getElementById('folio-label').textContent = item.folio;
@@ -1033,20 +1016,20 @@
 
             function nextPage() {
                 if (isAnimating) return;
-                const catalogosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackCatalogos;
-                const listaActual = catalogosTemporada[currentCatalogType] || [];
-                if (listaActual.length === 0) return;
+                const datosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackTemporada;
+                const listaActual = datosTemporada.catalogos[currentCatalogType] || [];
+                if (!listaActual.length) return;
                 currentPageIdx = (currentPageIdx + 1) % listaActual.length;
-                renderItem(true);
+                renderItem(datosTemporada, true);
             }
 
             function prevPage() {
                 if (isAnimating) return;
-                const catalogosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackCatalogos;
-                const listaActual = catalogosTemporada[currentCatalogType] || [];
-                if (listaActual.length === 0) return;
+                const datosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackTemporada;
+                const listaActual = datosTemporada.catalogos[currentCatalogType] || [];
+                if (!listaActual.length) return;
                 currentPageIdx = (currentPageIdx - 1 + listaActual.length) % listaActual.length;
-                renderItem(true);
+                renderItem(datosTemporada, true);
             }
 
             function setCameraView(presetKey, btnElement) {
