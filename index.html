@@ -15,27 +15,31 @@
 
     <style>
         /* ==========================================================================
-           MÓDULO 1: TOKENS DE DISEÑO (PALETA DE MANUSCRITO ILUMINADO & FUTURISMO)
+           MÓDULO 1: TOKENS DE DISEÑO (PERGAMINO IMPERIAL & LIBRO DE HORAS NEGRO)
            ========================================================================== */
         :root {
-            /* Pigmentos Históricos */
-            --bg-pergamino: #f3ead8;          /* Vitela envejecida / Pergamino imperial */
-            --bg-pergamino-sombra: #e4d5b7;   /* Borde de folio antiguo */
-            --tinta-ferrogalica: #1c1613;     /* Tinta oscura de escriba */
-            --tinta-sepia: #4a3c31;           /* Texto secundario */
+            /* Modo Diurno: Pergamino Imperial */
+            --bg-pergamino: #f3ead8;
+            --bg-grad-centro: rgba(255, 252, 245, 0.85);
+            --bg-grad-medio: rgba(243, 234, 216, 0.4);
+            --bg-grad-borde: rgba(212, 192, 158, 0.85);
+            
+            --tinta-principal: #1c1613;
+            --tinta-secundaria: #4a3c31;
             
             /* Pigmentos Preciosos */
-            --oro-pan: #c59b27;               /* Pan de oro bruñido */
-            --oro-brillo: #f6e08b;            /* Reflejo metálico */
-            --azul-lapislazuli: #13315c;      /* Ultramarino / Lapislázuli */
-            --lapislazuli-claro: #1d4e89;
-            --rojo-bermellon: #9e2a2b;        /* Cinabrio / Bermellón real */
-            --verde-malaquita: #1b4332;       /* Malaquita de iluminación */
+            --oro-pan: #c59b27;
+            --oro-brillo: #f6e08b;
+            --azul-real: #13315c;
+            --rojo-bermellon: #9e2a2b;
+            --verde-malaquita: #1b4332;
 
             /* Acentos Modernos / Cuánticos */
-            --luz-eterea: #00b4d8;            /* Destello holográfico sutil */
-            --cristal-vitela: rgba(243, 234, 216, 0.72);
+            --luz-eterea: #00b4d8;
+            --cristal-vitela: rgba(243, 234, 216, 0.76);
+            --cristal-barra: rgba(243, 234, 216, 0.90);
             --borde-filigrana: rgba(197, 155, 39, 0.55);
+            --sombra-panel: rgba(28, 22, 19, 0.14);
 
             /* Tipografía */
             --font-display: 'Cinzel Decorative', Georgia, serif;
@@ -46,6 +50,29 @@
             --margen-folio: 24px;
         }
 
+        /* Tema Nocturno: "Libro de Horas Negro" (Manuscrito Borgoñón de Lujo) */
+        body.libro-negro {
+            --bg-pergamino: #0b0a0e;
+            --bg-grad-centro: rgba(26, 23, 34, 0.75);
+            --bg-grad-medio: rgba(13, 12, 16, 0.85);
+            --bg-grad-borde: rgba(5, 4, 7, 0.98);
+
+            --tinta-principal: #e6dfd3;
+            --tinta-secundaria: #a89f91;
+
+            --oro-pan: #d4af37;
+            --oro-brillo: #fff0a8;
+            --azul-real: #70a9ff;
+            --rojo-bermellon: #e05a5b;
+            --verde-malaquita: #4ad69b;
+
+            --luz-eterea: #00e5ff;
+            --cristal-vitela: rgba(16, 15, 22, 0.78);
+            --cristal-barra: rgba(16, 15, 22, 0.90);
+            --borde-filigrana: rgba(212, 175, 55, 0.55);
+            --sombra-panel: rgba(0, 0, 0, 0.65);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -54,25 +81,26 @@
 
         body {
             background-color: var(--bg-pergamino);
-            color: var(--tinta-ferrogalica);
+            color: var(--tinta-principal);
             font-family: var(--font-editorial);
             height: 100vh;
             width: 100vw;
             overflow: hidden;
             user-select: none;
             position: relative;
+            transition: background-color 0.8s ease, color 0.8s ease;
         }
 
         /* ==========================================================================
-           MÓDULO 2: TEXTURA DE VITELA Y MARCO DE FILIGRANA (ATMOSFERA)
+           MÓDULO 2: TEXTURA DE VITELA Y MARCO DE FILIGRANA (ATMÓSFERA)
            ========================================================================== */
         #folio-canvas {
             position: fixed;
             inset: 0;
             z-index: 0;
-            background: 
-                radial-gradient(circle at 50% 45%, rgba(255, 252, 245, 0.85) 0%, rgba(243, 234, 216, 0.4) 55%, rgba(212, 192, 158, 0.85) 100%);
+            background: radial-gradient(circle at 50% 45%, var(--bg-grad-centro) 0%, var(--bg-grad-medio) 55%, var(--bg-grad-borde) 100%);
             pointer-events: none;
+            transition: background 0.8s ease;
         }
 
         #folio-grain {
@@ -84,13 +112,19 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.28'/%3E%3C/svg%3E");
         }
 
+        body.libro-negro #folio-grain {
+            opacity: 0.22;
+            mix-blend-mode: screen;
+        }
+
         .imperial-frame {
             position: fixed;
             inset: 14px;
             border: 1px solid var(--oro-pan);
             pointer-events: none;
             z-index: 5;
-            box-shadow: inset 0 0 30px rgba(197, 155, 39, 0.15);
+            box-shadow: inset 0 0 35px rgba(197, 155, 39, 0.16);
+            transition: border-color 0.8s ease, box-shadow 0.8s ease;
         }
 
         .imperial-frame::before {
@@ -98,6 +132,10 @@
             position: absolute;
             inset: 4px;
             border: 1px solid rgba(19, 49, 92, 0.25);
+        }
+
+        body.libro-negro .imperial-frame::before {
+            border-color: rgba(0, 229, 255, 0.25);
         }
 
         .corner-ornament {
@@ -108,6 +146,7 @@
             pointer-events: none;
             border-color: var(--oro-pan);
             border-style: solid;
+            transition: border-color 0.8s ease;
         }
         .corner-tl { top: 10px; left: 10px; border-width: 3px 0 0 3px; }
         .corner-tr { top: 10px; right: 10px; border-width: 3px 3px 0 0; }
@@ -136,6 +175,12 @@
             box-shadow: 0 0 60px rgba(197, 155, 39, 0.15), inset 0 0 40px rgba(19, 49, 92, 0.08);
             pointer-events: none;
             animation: spinSlow 90s linear infinite;
+            transition: box-shadow 0.8s ease, border-color 0.8s ease;
+        }
+
+        body.libro-negro .astrolabe-halo {
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 80px rgba(0, 229, 255, 0.16), inset 0 0 50px rgba(212, 175, 55, 0.18);
         }
 
         .astrolabe-halo::after {
@@ -144,6 +189,10 @@
             inset: 18px;
             border-radius: 50%;
             border: 1px solid rgba(158, 42, 43, 0.25);
+        }
+
+        body.libro-negro .astrolabe-halo::after {
+            border-color: rgba(0, 229, 255, 0.35);
         }
 
         @keyframes spinSlow {
@@ -157,10 +206,16 @@
             --poster-color: transparent;
             --progress-bar-color: var(--oro-pan);
             --progress-bar-height: 3px;
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+
+        model-viewer.relic-transition {
+            opacity: 0;
+            transform: scale(0.95);
         }
 
         /* ==========================================================================
-           MÓDULO 4: INTERFAZ ILUMINADA (CABECERA, LETRA CAPITAL Y CÓDICE)
+           MÓDULO 4: INTERFAZ ILUMINADA (CABECERA, LETRA CAPITAL Y PASO DE PÁGINA)
            ========================================================================== */
         .royal-hud {
             position: fixed;
@@ -173,12 +228,14 @@
             justify-content: space-between;
         }
 
+        /* Cabecera Superior */
         .codex-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             border-bottom: 1px solid rgba(197, 155, 39, 0.35);
             padding-bottom: 14px;
+            gap: 12px;
         }
 
         .crest-block {
@@ -191,7 +248,7 @@
             width: 46px;
             height: 46px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #c13839, var(--rojo-bermellon));
+            background: radial-gradient(circle at 30% 30%, #c13839, #8a1f20);
             border: 2px solid var(--oro-pan);
             box-shadow: 0 4px 12px rgba(28, 22, 19, 0.25), inset 0 0 8px rgba(0, 0, 0, 0.4);
             display: flex;
@@ -201,14 +258,21 @@
             font-family: var(--font-display);
             font-size: 1.2rem;
             font-weight: 900;
+            flex-shrink: 0;
         }
 
         .title-group h1 {
             font-family: var(--font-display);
             font-size: clamp(1.2rem, 2.2vw, 1.85rem);
-            color: var(--azul-lapislazuli);
+            color: var(--azul-real);
             letter-spacing: 0.14em;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: color 0.8s ease, text-shadow 0.8s ease;
+        }
+
+        body.libro-negro .title-group h1 {
+            color: var(--oro-brillo);
+            text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
         }
 
         .title-group .rubric {
@@ -220,16 +284,53 @@
             margin-top: 2px;
         }
 
+        .header-right-tools {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: auto;
+        }
+
+        /* Botón Selector Libro de Horas Negro */
+        .btn-theme-toggle {
+            background: var(--cristal-vitela);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--oro-pan);
+            color: var(--tinta-principal);
+            font-family: var(--font-display);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 9px 14px;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-theme-toggle:hover {
+            border-color: var(--luz-eterea);
+            box-shadow: 0 0 14px rgba(0, 229, 255, 0.25);
+        }
+
+        body.libro-negro .btn-theme-toggle {
+            color: var(--oro-brillo);
+            border-color: var(--luz-eterea);
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+        }
+
         .quantum-telemetry {
             text-align: right;
             font-family: var(--font-tech);
             font-size: 0.7rem;
-            color: var(--azul-lapislazuli);
+            color: var(--azul-real);
             background: var(--cristal-vitela);
             backdrop-filter: blur(8px);
             padding: 8px 14px;
             border: 1px solid var(--borde-filigrana);
             border-right: 3px solid var(--luz-eterea);
+            transition: background 0.8s ease, color 0.8s ease;
         }
 
         .telemetry-live {
@@ -248,25 +349,51 @@
             50% { opacity: 0.35; }
         }
 
-        .manuscript-card {
+        /* Contenedor 3D para Efecto Paso de Página */
+        .manuscript-perspective {
+            perspective: 1400px;
+            max-width: 390px;
             pointer-events: auto;
-            max-width: 370px;
+        }
+
+        .manuscript-card {
             background: var(--cristal-vitela);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--oro-pan);
             outline: 1px solid rgba(19, 49, 92, 0.2);
             outline-offset: -5px;
-            padding: 24px 26px;
-            box-shadow: 0 15px 35px rgba(28, 22, 19, 0.12);
+            padding: 22px 24px 18px 24px;
+            box-shadow: 0 15px 35px var(--sombra-panel);
             position: relative;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.65s cubic-bezier(0.645, 0.045, 0.355, 1), 
+                        opacity 0.55s ease, 
+                        background 0.8s ease, 
+                        box-shadow 0.8s ease;
+        }
+
+        body.libro-negro .manuscript-card {
+            outline-color: rgba(0, 229, 255, 0.25);
+        }
+
+        /* Estados de Animación Paso de Página */
+        .manuscript-card.page-turn-next {
+            transform: rotateY(-78deg) scale(0.96);
+            opacity: 0;
+        }
+
+        .manuscript-card.page-turn-prev {
+            transform: rotateY(45deg) translateX(25px) scale(0.96);
+            opacity: 0;
         }
 
         .folio-tag {
             font-family: var(--font-tech);
             font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 0.18em;
+            letter-spacing: 0.16em;
             color: var(--rojo-bermellon);
             margin-bottom: 8px;
             display: flex;
@@ -276,16 +403,21 @@
         .manuscript-card h2 {
             font-family: var(--font-display);
             font-size: 1.25rem;
-            color: var(--azul-lapislazuli);
+            color: var(--azul-real);
             margin-bottom: 12px;
             border-bottom: 1px solid rgba(197, 155, 39, 0.4);
             padding-bottom: 8px;
+            transition: color 0.8s ease;
+        }
+
+        body.libro-negro .manuscript-card h2 {
+            color: var(--oro-brillo);
         }
 
         .illuminated-text {
-            font-size: 1.08rem;
-            line-height: 1.55;
-            color: var(--tinta-ferrogalica);
+            font-size: 1.06rem;
+            line-height: 1.54;
+            color: var(--tinta-principal);
             text-align: justify;
         }
 
@@ -296,15 +428,21 @@
             line-height: 0.85;
             padding: 6px 10px 4px 8px;
             margin: 2px 10px 2px 0;
-            background: linear-gradient(135deg, var(--azul-lapislazuli) 0%, #0a1d37 100%);
+            background: linear-gradient(135deg, #13315c 0%, #0a1d37 100%);
             color: var(--oro-brillo);
             border: 2px solid var(--oro-pan);
-            box-shadow: inset 0 0 10px rgba(197, 155, 39, 0.5), 2px 3px 6px rgba(0,0,0,0.2);
+            box-shadow: inset 0 0 10px rgba(197, 155, 39, 0.5), 2px 3px 6px rgba(0,0,0,0.25);
+        }
+
+        body.libro-negro .drop-cap {
+            background: linear-gradient(135deg, #071921 0%, #040d12 100%);
+            border-color: var(--luz-eterea);
+            box-shadow: inset 0 0 12px rgba(0, 229, 255, 0.45), 0 0 12px rgba(0, 229, 255, 0.25);
         }
 
         .relic-specs {
-            margin-top: 16px;
-            padding-top: 12px;
+            margin-top: 14px;
+            padding-top: 10px;
             border-top: 1px dashed rgba(197, 155, 39, 0.6);
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -315,38 +453,76 @@
 
         .spec-item span {
             display: block;
-            color: var(--tinta-sepia);
-            font-size: 0.6rem;
+            color: var(--tinta-secundaria);
+            font-size: 0.58rem;
         }
 
         .spec-item strong {
-            color: var(--azul-lapislazuli);
+            color: var(--azul-real);
         }
 
+        /* Navegador de Folios (Paso de Página) */
+        .folio-pagination {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(197, 155, 39, 0.35);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-page {
+            background: transparent;
+            border: 1px solid var(--borde-filigrana);
+            color: var(--tinta-principal);
+            font-family: var(--font-display);
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 6px 11px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-page:hover {
+            background: rgba(197, 155, 39, 0.2);
+            border-color: var(--oro-pan);
+            color: var(--oro-pan);
+        }
+
+        .page-indicator {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--oro-pan);
+            letter-spacing: 0.14em;
+        }
+
+        /* Barra Inferior de Instrumentos Reales */
         .royal-controls {
             pointer-events: auto;
             align-self: center;
             display: flex;
-            gap: 10px;
-            background: rgba(243, 234, 216, 0.88);
+            gap: 8px;
+            background: var(--cristal-barra);
             backdrop-filter: blur(10px);
             padding: 8px 14px;
             border: 1px solid var(--oro-pan);
-            box-shadow: 0 8px 25px rgba(28, 22, 19, 0.15);
+            box-shadow: 0 8px 25px var(--sombra-panel);
+            transition: background 0.8s ease;
         }
 
         .btn-codex {
             background: transparent;
             border: 1px solid transparent;
-            color: var(--azul-lapislazuli);
+            color: var(--azul-real);
             font-family: var(--font-display);
             font-size: 0.72rem;
             font-weight: 700;
             letter-spacing: 0.1em;
-            padding: 9px 16px;
+            padding: 9px 14px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .btn-codex:hover {
@@ -356,15 +532,25 @@
         }
 
         .btn-codex.active {
-            background: var(--azul-lapislazuli);
+            background: #13315c;
             color: var(--oro-brillo);
             border-color: var(--oro-pan);
             box-shadow: 0 0 12px rgba(19, 49, 92, 0.35);
         }
 
+        body.libro-negro .btn-codex.active {
+            background: rgba(0, 229, 255, 0.14);
+            color: var(--luz-eterea);
+            border-color: var(--luz-eterea);
+            box-shadow: 0 0 14px rgba(0, 229, 255, 0.25);
+        }
+
+        /* Adaptación Móvil */
         @media (max-width: 768px) {
-            .manuscript-card {
+            .manuscript-perspective {
                 max-width: 100%;
+            }
+            .manuscript-card {
                 padding: 16px;
             }
             .royal-controls {
@@ -414,6 +600,7 @@
     <!-- MÓDULO 4: INTERFAZ HUD DE MANUSCRITO REAL -->
     <div class="royal-hud">
         
+        <!-- Cabecera -->
         <header class="codex-header">
             <div class="crest-block">
                 <div class="royal-seal" title="Sello Imperial">R</div>
@@ -423,33 +610,50 @@
                 </div>
             </div>
 
-            <div class="quantum-telemetry">
-                <div><span class="telemetry-live"></span>ESCÁNER ETER-ÓPTICO ACTIVO</div>
-                <div id="orbit-readout" style="margin-top:4px; color: var(--tinta-sepia);">AZIMUT: 35.0° | ELEV: 72.0°</div>
+            <div class="header-right-tools">
+                <button class="btn-theme-toggle" id="btn-night-book" onclick="CodexApp.toggleNightBook(this)">
+                    &#9790; Libro de Horas Negro
+                </button>
+
+                <div class="quantum-telemetry">
+                    <div><span class="telemetry-live"></span>ESCÁNER ETER-ÓPTICO ACTIVO</div>
+                    <div id="orbit-readout" style="margin-top:4px; color: var(--tinta-secundaria);">AZIMUT: 35.0° | ELEV: 72.0°</div>
+                </div>
             </div>
         </header>
 
-        <aside class="manuscript-card" id="codex-panel">
-            <div class="folio-tag">
-                <span>FOLIO IV &bull; PIEZA MAESTRA</span>
-                <span style="color: var(--azul-lapislazuli);">[0x9F-AURUM]</span>
-            </div>
-            <h2 id="relic-title">Orbe de la Corona Eterna</h2>
-            <p class="illuminated-text" id="relic-desc">
-                <span class="drop-cap">F</span>orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta reliquia custodia los anillos de resonancia astral. Su geometría sagrada une la tradición de los antiguos soberanos con la precisión de la ingeniería cuántica.
-            </p>
-            <div class="relic-specs">
-                <div class="spec-item">
-                    <span>MATERIA PRIMA</span>
-                    <strong>ORO 24K / OBSIDIANA</strong>
+        <!-- Ficha Editorial Iluminada con Paso de Página -->
+        <div class="manuscript-perspective" id="codex-wrapper">
+            <aside class="manuscript-card" id="codex-panel">
+                <div class="folio-tag">
+                    <span id="folio-number">FOLIO I &bull; PIEZA MAESTRA</span>
+                    <span id="folio-code" style="color: var(--azul-real);">[0x9F-AURUM]</span>
                 </div>
-                <div class="spec-item">
-                    <span>CAMPO HOLOGRÁFICO</span>
-                    <strong style="color: var(--verde-malaquita);">ESTABLE (99.8%)</strong>
+                <h2 id="relic-title">Orbe de la Corona Eterna</h2>
+                <p class="illuminated-text" id="relic-desc">
+                    <span class="drop-cap" id="relic-dropcap">F</span><span id="relic-body">orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta reliquia custodia los anillos de resonancia astral. Su geometría sagrada une la tradición de los antiguos soberanos con la precisión de la ingeniería cuántica.</span>
+                </p>
+                <div class="relic-specs">
+                    <div class="spec-item">
+                        <span>MATERIA PRIMA</span>
+                        <strong id="relic-material">ORO 24K / OBSIDIANA</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>CAMPO HOLOGRÁFICO</span>
+                        <strong id="relic-status" style="color: var(--verde-malaquita);">ESTABLE (99.8%)</strong>
+                    </div>
                 </div>
-            </div>
-        </aside>
 
+                <!-- Controles de Paso de Página -->
+                <div class="folio-pagination">
+                    <button class="btn-page" onclick="CodexApp.turnPage(-1)">&larr; Anterior</button>
+                    <span class="page-indicator" id="page-roman">I / III</span>
+                    <button class="btn-page" onclick="CodexApp.turnPage(1)">Siguiente &rarr;</button>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Barra de Controles -->
         <nav class="royal-controls" aria-label="Instrumentos de Inspección">
             <button class="btn-codex active" onclick="CodexApp.setCameraView('general', this)">Vista Imperial</button>
             <button class="btn-codex" onclick="CodexApp.setCameraView('detalle', this)">Inspección de Oro</button>
@@ -461,13 +665,57 @@
     </div>
 
     <!-- ==========================================================================
-         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR + APLICACIÓN FORZADA DE ORO 24K
+         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (CATÁLOGO, PASO DE PÁGINA Y TEMA)
          ========================================================================== -->
     <script>
         const CodexApp = (() => {
+            // ======================================================================
+            // CATÁLOGO DE RELIQUIAS (Edita aquí los nombres de tus archivos .glb)
+            // ======================================================================
+            const reliquiasCatalogo = [
+                {
+                    romano: "I",
+                    folioTag: "FOLIO I • PIEZA MAESTRA",
+                    codigo: "[0x9F-AURUM]",
+                    titulo: "Orbe de la Corona Eterna",
+                    letraCapital: "F",
+                    descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta reliquia custodia los anillos de resonancia astral. Su geometría sagrada une la tradición de los antiguos soberanos con la precisión de la ingeniería cuántica.",
+                    materia: "ORO 24K / OBSIDIANA",
+                    estado: "ESTABLE (99.8%)",
+                    archivoGlb: "reliquia_real.glb"
+                },
+                {
+                    romano: "II",
+                    folioTag: "FOLIO II • CETRO DINÁSTICO",
+                    codigo: "[0x4B-AETHER]",
+                    titulo: "Astrolabio del Soberano",
+                    letraCapital: "C",
+                    descripcion: "alibrado según los meridianos celestes del antiguo imperio, este instrumento proyecta trayectorias estelares mediante filamentos de luz coherente. Sus engranajes de latón dorado responden al pulso magnético de la cámara real.",
+                    materia: "ORO PULIDO / ZAFIRO",
+                    estado: "SINCRONIZADO (100%)",
+                    archivoGlb: "reliquia_real.glb" // Cambia por 'astrolabio.glb' cuando lo subas
+                },
+                {
+                    romano: "III",
+                    folioTag: "FOLIO III • SELLO DE ESTADO",
+                    codigo: "[0x7E-IGNIS]",
+                    titulo: "Custodia del Fuego Ancestral",
+                    letraCapital: "E",
+                    descripcion: "rigida como emblema de continuidad dinástica, contiene un núcleo fotónico suspendido dentro de una celosía gótica de oro martillado. Representa el pacto perpetuo entre la memoria de los linajes y el porvenir.",
+                    materia: "ORO / CRISTAL CUÁNTICO",
+                    estado: "ACTIVO (98.4%)",
+                    archivoGlb: "reliquia_real.glb" // Cambia por 'custodia.glb' cuando lo subas
+                }
+            ];
+
+            let currentIndex = 0;
+            let isTurning = false;
+
+            // Referencias al DOM
             const viewer = document.getElementById('royal-viewer');
             const readout = document.getElementById('orbit-readout');
             const codexPanel = document.getElementById('codex-panel');
+            const codexWrapper = document.getElementById('codex-wrapper');
 
             const cameraPresets = {
                 general: { orbit: '35deg 72deg 4.2m', fov: '45deg' },
@@ -475,102 +723,9 @@
                 cenital: { orbit: '0deg 12deg 4.0m', fov: '45deg' }
             };
 
-            // Aplicar propiedades físicas y destellos de Oro 24k al modelo 3D cargado
-            function aplicarOro24K() {
-                if (!viewer || !viewer.model) return;
-
-                // 1. API oficial de materiales de model-viewer (Color, Metalness, Roughness)
-                if (viewer.model.materials && viewer.model.materials.length > 0) {
-                    viewer.model.materials.forEach((mat) => {
-                        mat.pbrMetallicRoughness.setBaseColorFactor([1.0, 0.843, 0.0, 1.0]); // Oro 24k (#FFD700)
-                        mat.pbrMetallicRoughness.setMetallicFactor(1.0);
-                        mat.pbrMetallicRoughness.setRoughnessFactor(0.16);
-                    });
-                }
-
-                // 2. Acceso a la escena interna de Three.js para Clearcoat, Iridiscencia y Destellos (Glints)
-                const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(s => s.description === 'scene');
-                const internalScene = sceneSymbol ? viewer[sceneSymbol] : null;
-
-                if (internalScene) {
-                    internalScene.traverse((child) => {
-                        if (child.isMesh && child.material) {
-                            const mat = child.material;
-                            mat.color.setHex(0xffd700);
-                            mat.metalness = 1.0;
-                            mat.roughness = 0.16;
-                            mat.clearcoat = 0.35;
-                            mat.clearcoatRoughness = 0.12;
-                            mat.iridescence = 0.15;
-                            mat.iridescenceIOR = 1.3;
-                            mat.envMapIntensity = 1.8;
-
-                            // Inyectar el shader de micro-chispas y reflejo Fresnel de tu script original
-                            mat.onBeforeCompile = (shader) => {
-                                shader.uniforms.uGlintIntensity = { value: 2.2 };
-                                shader.uniforms.uGlintSharpness = { value: 180.0 };
-                                shader.uniforms.uLightDir = { value: { x: 0.53, y: 0.80, z: 0.53 } };
-
-                                shader.vertexShader = shader.vertexShader
-                                    .replace('#include <common>', `
-                                        #include <common>
-                                        varying vec3 vWorldPosition;
-                                        varying vec3 vCustomNormal;
-                                    `)
-                                    .replace('#include <worldpos_vertex>', `
-                                        #include <worldpos_vertex>
-                                        vWorldPosition = (modelMatrix * vec4(transformed, 1.0)).xyz;
-                                        vCustomNormal = normalize(mat3(modelMatrix) * objectNormal);
-                                    `);
-
-                                shader.fragmentShader = shader.fragmentShader
-                                    .replace('#include <common>', `
-                                        #include <common>
-                                        varying vec3 vWorldPosition;
-                                        varying vec3 vCustomNormal;
-                                        uniform float uGlintIntensity;
-                                        uniform float uGlintSharpness;
-                                        uniform vec3 uLightDir;
-
-                                        float hash31(vec3 p) {
-                                            p = fract(p * 0.1031);
-                                            p += dot(p, p.yzx + 33.33);
-                                            return fract((p.x + p.y) * p.z);
-                                        }
-                                    `)
-                                    .replace('#include <dithering_fragment>', `
-                                        vec3 viewDir = normalize(cameraPosition - vWorldPosition);
-                                        vec3 normal = normalize(vCustomNormal);
-                                        vec3 halfVector = normalize(normalize(uLightDir) + viewDir);
-                                        
-                                        vec3 microGrid = floor(vWorldPosition * 280.0); 
-                                        float sparkleNoise = hash31(microGrid);
-                                        
-                                        float NdotH = max(dot(normal, halfVector), 0.0);
-                                        float specularGlint = pow(NdotH, uGlintSharpness);
-                                        float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 4.5);
-                                        
-                                        float glintMask = smoothstep(0.85, 0.99, sparkleNoise) * pow(NdotH, 35.0);
-                                        float totalGlint = (specularGlint + glintMask * 0.6) * (0.4 + fresnel * 1.5);
-                                        
-                                        vec3 glintColor = vec3(1.0, 0.94, 0.72) * totalGlint * uGlintIntensity;
-                                        gl_FragColor.rgb += glintColor;
-                                        #include <dithering_fragment>
-                                    `);
-                            };
-                            mat.needsUpdate = true;
-                        }
-                    });
-                }
-            }
-
             function init() {
                 if (!viewer) return;
 
-                // Ejecutar cuando el modelo .glb termine de cargar
-                viewer.addEventListener('load', aplicarOro24K);
-
-                // Actualizar telemetría en tiempo real al mover la cámara
                 viewer.addEventListener('camera-change', () => {
                     const orbit = viewer.getCameraOrbit();
                     const thetaDeg = (orbit.theta * (180 / Math.PI)).toFixed(1);
@@ -579,8 +734,69 @@
                         readout.textContent = `AZIMUT: ${thetaDeg}° | ELEV: ${phiDeg}°`;
                     }
                 });
+
+                // Permitir navegación con flechas del teclado
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight') turnPage(1);
+                    if (e.key === 'ArrowLeft') turnPage(-1);
+                });
             }
 
+            // ======================================================================
+            // MODO NOCTURNO: "LIBRO DE HORAS NEGRO"
+            // ======================================================================
+            function toggleNightBook(btnElement) {
+                const isNight = document.body.classList.toggle('libro-negro');
+                if (btnElement) {
+                    btnElement.innerHTML = isNight 
+                        ? '&#9788; Pergamino Imperial' 
+                        : '&#9790; Libro de Horas Negro';
+                }
+            }
+
+            // ======================================================================
+            // TRANSICIÓN TIPO PASO DE PÁGINA ENTRE RELIQUIAS
+            // ======================================================================
+            function turnPage(direction) {
+                if (isTurning || !codexPanel) return;
+                isTurning = true;
+
+                const total = reliquiasCatalogo.length;
+                currentIndex = (currentIndex + direction + total) % total;
+                const nuevaReliquia = reliquiasCatalogo[currentIndex];
+
+                // 1. Iniciar animación de giro de hoja y desvanecimiento sutil del modelo
+                const animClass = direction > 0 ? 'page-turn-next' : 'page-turn-prev';
+                codexPanel.classList.add(animClass);
+                if (viewer) viewer.classList.add('relic-transition');
+
+                // 2. Actualizar contenido en el punto medio del giro
+                setTimeout(() => {
+                    document.getElementById('folio-number').textContent = nuevaReliquia.folioTag;
+                    document.getElementById('folio-code').textContent = nuevaReliquia.codigo;
+                    document.getElementById('relic-title').textContent = nuevaReliquia.titulo;
+                    document.getElementById('relic-dropcap').textContent = nuevaReliquia.letraCapital;
+                    document.getElementById('relic-body').textContent = nuevaReliquia.descripcion;
+                    document.getElementById('relic-material').textContent = nuevaReliquia.materia;
+                    document.getElementById('relic-status').textContent = nuevaReliquia.estado;
+                    document.getElementById('page-roman').textContent = `${nuevaReliquia.romano} / III`;
+
+                    // Cambiar el archivo 3D solo si es distinto al actual
+                    if (viewer && viewer.getAttribute('src') !== nuevaReliquia.archivoGlb) {
+                        viewer.setAttribute('src', nuevaReliquia.archivoGlb);
+                    }
+
+                    // 3. Desplegar la nueva página
+                    codexPanel.classList.remove(animClass);
+                    if (viewer) viewer.classList.remove('relic-transition');
+
+                    setTimeout(() => {
+                        isTurning = false;
+                    }, 500);
+                }, 420);
+            }
+
+            // Cambiar ángulo de cámara
             function setCameraView(presetKey, btnElement) {
                 const preset = cameraPresets[presetKey];
                 if (!preset || !viewer) return;
@@ -594,6 +810,7 @@
                 if (btnElement) btnElement.classList.add('active');
             }
 
+            // Alternar rotación automática
             function toggleRotation(btnElement) {
                 if (!viewer) return;
                 const isRotating = viewer.hasAttribute('auto-rotate');
@@ -608,26 +825,29 @@
                 }
             }
 
+            // Mostrar/Ocultar el panel del manuscrito
             function toggleManuscript(btnElement) {
-                if (!codexPanel) return;
-                const isHidden = codexPanel.style.opacity === '0';
-                codexPanel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                if (!codexWrapper) return;
+                const isHidden = codexWrapper.style.opacity === '0';
+                codexWrapper.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                 
                 if (isHidden) {
-                    codexPanel.style.opacity = '1';
-                    codexPanel.style.transform = 'translateX(0)';
-                    codexPanel.style.pointerEvents = 'auto';
+                    codexWrapper.style.opacity = '1';
+                    codexWrapper.style.transform = 'translateX(0)';
+                    codexWrapper.style.pointerEvents = 'auto';
                     btnElement.textContent = 'Ocultar Códice';
                 } else {
-                    codexPanel.style.opacity = '0';
-                    codexPanel.style.transform = 'translateX(-20px)';
-                    codexPanel.style.pointerEvents = 'none';
+                    codexWrapper.style.opacity = '0';
+                    codexWrapper.style.transform = 'translateX(-20px)';
+                    codexWrapper.style.pointerEvents = 'none';
                     btnElement.textContent = 'Mostrar Códice';
                 }
             }
 
             return {
                 init,
+                toggleNightBook,
+                turnPage,
                 setCameraView,
                 toggleRotation,
                 toggleManuscript
