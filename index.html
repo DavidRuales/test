@@ -70,13 +70,11 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            /* Gradiente radial que imita el envejecimiento natural del pergamino y luz cenital */
             background: 
                 radial-gradient(circle at 50% 45%, rgba(255, 252, 245, 0.85) 0%, rgba(243, 234, 216, 0.4) 55%, rgba(212, 192, 158, 0.85) 100%);
             pointer-events: none;
         }
 
-        /* Grano orgánico de papel mediante ruido SVG en línea */
         #folio-grain {
             position: fixed;
             inset: 0;
@@ -86,7 +84,6 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.28'/%3E%3C/svg%3E");
         }
 
-        /* Doble marco iluminado con esquinas ornamentales */
         .imperial-frame {
             position: fixed;
             inset: 14px;
@@ -103,7 +100,6 @@
             border: 1px solid rgba(19, 49, 92, 0.25);
         }
 
-        /* Esquinas geométricas estilo astrolabio / manuscrito */
         .corner-ornament {
             position: fixed;
             width: 36px;
@@ -131,7 +127,6 @@
             justify-content: center;
         }
 
-        /* Halo astrolabio sutil detrás del objeto 3D */
         .astrolabe-halo {
             position: absolute;
             width: 58vh;
@@ -178,7 +173,6 @@
             justify-content: space-between;
         }
 
-        /* Cabecera Superior */
         .codex-header {
             display: flex;
             justify-content: space-between;
@@ -193,7 +187,6 @@
             gap: 14px;
         }
 
-        /* Sello lacrado / Escudo vectorizado */
         .royal-seal {
             width: 46px;
             height: 46px;
@@ -227,7 +220,6 @@
             margin-top: 2px;
         }
 
-        /* Telemetría Futurista en esquina superior derecha */
         .quantum-telemetry {
             text-align: right;
             font-family: var(--font-tech);
@@ -256,7 +248,6 @@
             50% { opacity: 0.35; }
         }
 
-        /* Panel Lateral: Hoja de Manuscrito con Letra Capital Iluminada */
         .manuscript-card {
             pointer-events: auto;
             max-width: 370px;
@@ -291,7 +282,6 @@
             padding-bottom: 8px;
         }
 
-        /* Letra Capital Iluminada (Drop Cap) */
         .illuminated-text {
             font-size: 1.08rem;
             line-height: 1.55;
@@ -333,7 +323,6 @@
             color: var(--azul-lapislazuli);
         }
 
-        /* Barra Inferior de Instrumentos Reales */
         .royal-controls {
             pointer-events: auto;
             align-self: center;
@@ -373,7 +362,6 @@
             box-shadow: 0 0 12px rgba(19, 49, 92, 0.35);
         }
 
-        /* Adaptación Móvil */
         @media (max-width: 768px) {
             .manuscript-card {
                 max-width: 100%;
@@ -404,11 +392,6 @@
     <main id="reliquary-stage">
         <div class="astrolabe-halo"></div>
         
-        <!-- 
-            NOTA PARA GITHUB: 
-            Asegúrate de subir 'reliquia_real.glb' en la misma carpeta que este archivo.
-            Mientras no esté presente, puedes descomentar el atributo 'src' de prueba abajo si deseas ver un modelo de ejemplo.
-        -->
         <model-viewer 
             id="royal-viewer"
             src="reliquia_real.glb"
@@ -426,13 +409,11 @@
             min-camera-orbit="auto auto 2.2m"
             max-camera-orbit="auto auto 8m">
         </model-viewer>
-
     </main>
 
     <!-- MÓDULO 4: INTERFAZ HUD DE MANUSCRITO REAL -->
     <div class="royal-hud">
         
-        <!-- Cabecera -->
         <header class="codex-header">
             <div class="crest-block">
                 <div class="royal-seal" title="Sello Imperial">R</div>
@@ -448,7 +429,6 @@
             </div>
         </header>
 
-        <!-- Ficha Editorial Iluminada -->
         <aside class="manuscript-card" id="codex-panel">
             <div class="folio-tag">
                 <span>FOLIO IV &bull; PIEZA MAESTRA</span>
@@ -470,7 +450,6 @@
             </div>
         </aside>
 
-        <!-- Barra de Controles -->
         <nav class="royal-controls" aria-label="Instrumentos de Inspección">
             <button class="btn-codex active" onclick="CodexApp.setCameraView('general', this)">Vista Imperial</button>
             <button class="btn-codex" onclick="CodexApp.setCameraView('detalle', this)">Inspección de Oro</button>
@@ -482,25 +461,114 @@
     </div>
 
     <!-- ==========================================================================
-         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (ARQUITECTURA EXTENSIBLE)
+         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR + APLICACIÓN FORZADA DE ORO 24K
          ========================================================================== -->
     <script>
         const CodexApp = (() => {
-            // Referencias al DOM
             const viewer = document.getElementById('royal-viewer');
             const readout = document.getElementById('orbit-readout');
             const codexPanel = document.getElementById('codex-panel');
 
-            // Configuración de ángulos de cámara predefinidos
             const cameraPresets = {
                 general: { orbit: '35deg 72deg 4.2m', fov: '45deg' },
                 detalle: { orbit: '-15deg 82deg 2.5m', fov: '32deg' },
                 cenital: { orbit: '0deg 12deg 4.0m', fov: '45deg' }
             };
 
-            // Inicialización de eventos
+            // Aplicar propiedades físicas y destellos de Oro 24k al modelo 3D cargado
+            function aplicarOro24K() {
+                if (!viewer || !viewer.model) return;
+
+                // 1. API oficial de materiales de model-viewer (Color, Metalness, Roughness)
+                if (viewer.model.materials && viewer.model.materials.length > 0) {
+                    viewer.model.materials.forEach((mat) => {
+                        mat.pbrMetallicRoughness.setBaseColorFactor([1.0, 0.843, 0.0, 1.0]); // Oro 24k (#FFD700)
+                        mat.pbrMetallicRoughness.setMetallicFactor(1.0);
+                        mat.pbrMetallicRoughness.setRoughnessFactor(0.16);
+                    });
+                }
+
+                // 2. Acceso a la escena interna de Three.js para Clearcoat, Iridiscencia y Destellos (Glints)
+                const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(s => s.description === 'scene');
+                const internalScene = sceneSymbol ? viewer[sceneSymbol] : null;
+
+                if (internalScene) {
+                    internalScene.traverse((child) => {
+                        if (child.isMesh && child.material) {
+                            const mat = child.material;
+                            mat.color.setHex(0xffd700);
+                            mat.metalness = 1.0;
+                            mat.roughness = 0.16;
+                            mat.clearcoat = 0.35;
+                            mat.clearcoatRoughness = 0.12;
+                            mat.iridescence = 0.15;
+                            mat.iridescenceIOR = 1.3;
+                            mat.envMapIntensity = 1.8;
+
+                            // Inyectar el shader de micro-chispas y reflejo Fresnel de tu script original
+                            mat.onBeforeCompile = (shader) => {
+                                shader.uniforms.uGlintIntensity = { value: 2.2 };
+                                shader.uniforms.uGlintSharpness = { value: 180.0 };
+                                shader.uniforms.uLightDir = { value: { x: 0.53, y: 0.80, z: 0.53 } };
+
+                                shader.vertexShader = shader.vertexShader
+                                    .replace('#include <common>', `
+                                        #include <common>
+                                        varying vec3 vWorldPosition;
+                                        varying vec3 vCustomNormal;
+                                    `)
+                                    .replace('#include <worldpos_vertex>', `
+                                        #include <worldpos_vertex>
+                                        vWorldPosition = (modelMatrix * vec4(transformed, 1.0)).xyz;
+                                        vCustomNormal = normalize(mat3(modelMatrix) * objectNormal);
+                                    `);
+
+                                shader.fragmentShader = shader.fragmentShader
+                                    .replace('#include <common>', `
+                                        #include <common>
+                                        varying vec3 vWorldPosition;
+                                        varying vec3 vCustomNormal;
+                                        uniform float uGlintIntensity;
+                                        uniform float uGlintSharpness;
+                                        uniform vec3 uLightDir;
+
+                                        float hash31(vec3 p) {
+                                            p = fract(p * 0.1031);
+                                            p += dot(p, p.yzx + 33.33);
+                                            return fract((p.x + p.y) * p.z);
+                                        }
+                                    `)
+                                    .replace('#include <dithering_fragment>', `
+                                        vec3 viewDir = normalize(cameraPosition - vWorldPosition);
+                                        vec3 normal = normalize(vCustomNormal);
+                                        vec3 halfVector = normalize(normalize(uLightDir) + viewDir);
+                                        
+                                        vec3 microGrid = floor(vWorldPosition * 280.0); 
+                                        float sparkleNoise = hash31(microGrid);
+                                        
+                                        float NdotH = max(dot(normal, halfVector), 0.0);
+                                        float specularGlint = pow(NdotH, uGlintSharpness);
+                                        float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 4.5);
+                                        
+                                        float glintMask = smoothstep(0.85, 0.99, sparkleNoise) * pow(NdotH, 35.0);
+                                        float totalGlint = (specularGlint + glintMask * 0.6) * (0.4 + fresnel * 1.5);
+                                        
+                                        vec3 glintColor = vec3(1.0, 0.94, 0.72) * totalGlint * uGlintIntensity;
+                                        gl_FragColor.rgb += glintColor;
+                                        #include <dithering_fragment>
+                                    `);
+                            };
+                            mat.needsUpdate = true;
+                        }
+                    });
+                }
+            }
+
             function init() {
                 if (!viewer) return;
+
+                // Ejecutar cuando el modelo .glb termine de cargar
+                viewer.addEventListener('load', aplicarOro24K);
 
                 // Actualizar telemetría en tiempo real al mover la cámara
                 viewer.addEventListener('camera-change', () => {
@@ -513,7 +581,6 @@
                 });
             }
 
-            // Cambiar ángulo de cámara con transición suave
             function setCameraView(presetKey, btnElement) {
                 const preset = cameraPresets[presetKey];
                 if (!preset || !viewer) return;
@@ -521,14 +588,12 @@
                 viewer.cameraOrbit = preset.orbit;
                 viewer.fieldOfView = preset.fov;
 
-                // Actualizar estado visual de botones de vista
                 document.querySelectorAll('.royal-controls .btn-codex').forEach((btn, idx) => {
                     if (idx < 3) btn.classList.remove('active');
                 });
                 if (btnElement) btnElement.classList.add('active');
             }
 
-            // Alternar rotación automática
             function toggleRotation(btnElement) {
                 if (!viewer) return;
                 const isRotating = viewer.hasAttribute('auto-rotate');
@@ -543,7 +608,6 @@
                 }
             }
 
-            // Mostrar/Ocultar el panel del manuscrito para admirar la pieza libremente
             function toggleManuscript(btnElement) {
                 if (!codexPanel) return;
                 const isHidden = codexPanel.style.opacity === '0';
@@ -562,7 +626,6 @@
                 }
             }
 
-            // API pública para futuras expansiones (ej. cambiar de reliquia o añadir hotspots)
             return {
                 init,
                 setCameraView,
