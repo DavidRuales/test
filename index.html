@@ -674,12 +674,12 @@
                 <div class="royal-seal" id="royal-seal" title="Sello Imperial">I</div>
                 <div class="title-group">
                     <h1>Codex Regalis</h1>
-                    <div class="rubric" id="season-subtitle">Temporada I &bull; Vitela Imperial</div>
+                    <div class="rubric" id="season-subtitle">Temporada I &bull; Vitela Imperial (Sol Invictus)</div>
                 </div>
             </div>
 
-            <!-- Selector de las 4 Temporadas (cada una cambia la paleta de color real) -->
-            <div class="season-selector" role="tablist" aria-label="Temporadas Reales">
+            <!-- Selector de las 4 Temporadas (cada una cambia la paleta de color real y lee su JSON) -->
+            <div class="season-selector" id="season-selector" role="tablist" aria-label="Temporadas Reales">
                 <button class="btn-season active" onclick="CodexApp.selectSeason(0, this)">I. Sol Invictus</button>
                 <button class="btn-season" onclick="CodexApp.selectSeason(1, this)">II. Purpura Regia</button>
                 <button class="btn-season" onclick="CodexApp.selectSeason(2, this)">III. Viridis Aether</button>
@@ -704,7 +704,7 @@
 
                 <div class="folio-tag">
                     <span id="folio-label">FOLIO I &bull; CÓDICE ILUMINADO</span>
-                    <span id="folio-code" style="color: var(--color-soberano);">[0x9F-LIBER]</span>
+                    <span id="folio-code" style="color: var(--color-soberano);">[0x1A-LIBER]</span>
                 </div>
                 
                 <h2 id="relic-title">Grimorio del Sol Invicto</h2>
@@ -737,7 +737,7 @@
                 <!-- Navegación Paso de Página dentro del Catálogo Activo -->
                 <div class="folio-pagination">
                     <button class="btn-page" onclick="CodexApp.prevPage()">&#9666; Anterior</button>
-                    <span class="folio-counter" id="folio-counter">I / II</span>
+                    <span class="folio-counter" id="folio-counter">I / I</span>
                     <button class="btn-page" onclick="CodexApp.nextPage()">Siguiente &#9656;</button>
                 </div>
 
@@ -756,186 +756,58 @@
     </div>
 
     <!-- ==========================================================================
-         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (4 TEMPORADAS x 2 CATÁLOGOS)
+         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (LECTOR DE JSON EXTERNOS)
          ========================================================================== -->
     <script>
         const CodexApp = (() => {
-            // 1. BASE DE DATOS DE LAS 4 TEMPORADAS (CADA UNA CON SU PALETA Y SUS 2 CATÁLOGOS)
-            const temporadasCatalogo = [
-                {
-                    sello: "I",
-                    subtitulo: "Temporada I • Vitela Imperial (Sol Invictus)",
-                    // Catálogo A: Libros | Catálogo B: Piezas de Arte
-                    catalogos: {
-                        libros: [
-                            {
-                                folio: "FOLIO I • CÓDICE ILUMINADO",
-                                codigo: "[0x1A-LIBER]",
-                                titulo: "Grimorio del Sol Invicto",
-                                inicial: "E",
-                                descripcion: "scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.",
-                                material: "VITELA / ORO 24K",
-                                estado: "EDICIÓN MAESTRA",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "35deg 72deg 4.2m"
-                            },
-                            {
-                                folio: "FOLIO II • TRATADO ASTRAL",
-                                codigo: "[0x1B-LIBER]",
-                                titulo: "Compendio de las Esferas",
-                                inicial: "C",
-                                descripcion: "artografía celeste iluminada con bermellón de cinabrio y tintas ferrogálicas. Detalla las conjunciones planetarias que rigen la coronación de los soberanos.",
-                                material: "PERGAMINO / CINABRIO",
-                                estado: "SELLADO REAL",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "15deg 65deg 3.9m"
-                            }
-                        ],
-                        arte: [
-                            {
-                                folio: "PIEZA I • ARTE REGIO",
-                                codigo: "[0x1A-ARS]",
-                                titulo: "Orbe de la Corona Eterna",
-                                inicial: "F",
-                                descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta escultura custodia los anillos de resonancia astral del imperio.",
-                                material: "ORO 24K / OBSIDIANA",
-                                estado: "PIEZA ÚNICA",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "35deg 72deg 4.2m"
-                            },
-                            {
-                                folio: "PIEZA II • ARTE REGIO",
-                                codigo: "[0x1B-ARS]",
-                                titulo: "Astrolabio del Primer Trono",
-                                inicial: "I",
-                                descripcion: "nstrumento escultórico de precisión armilar concebido para alinear la sala del trono con el solsticio de verano mediante prismas de cristal de roca.",
-                                material: "ORO PULIDO / CUARZO",
-                                estado: "ACTIVO (99.8%)",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "-45deg 60deg 3.8m"
-                            }
-                        ]
-                    }
-                },
-                {
-                    sello: "II",
-                    subtitulo: "Temporada II • Pórfido Imperial (Purpura Regia)",
-                    catalogos: {
-                        libros: [
-                            {
-                                folio: "FOLIO I • CÓDICE PÚRPURA",
-                                codigo: "[0x2A-LIBER]",
-                                titulo: "Códice de Tiro y Granate",
-                                inicial: "T",
-                                descripcion: "eñido con el tinte púrpura reservado exclusivamente a la familia imperial y caligrafiado en oro rosado, este manuscrito narra los decretos de la corte bizantina.",
-                                material: "PÚRPURA DE TIRO / ORO ROSA",
-                                estado: "ARCHIVO IMPERIAL",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "25deg 70deg 4.1m"
-                            }
-                        ],
-                        arte: [
-                            {
-                                folio: "PIEZA I • ARTE IMPERIAL",
-                                codigo: "[0x2A-ARS]",
-                                titulo: "Relicario de Pórfido Rojo",
-                                inicial: "E",
-                                descripcion: "sculpido en piedra de pórfido egipcio con filigranas de oro rosado, este receptáculo ceremonial simboliza la soberanía inquebrantable de la dinastía.",
-                                material: "PÓRFIDO / ORO ROSADO",
-                                estado: "CUSTODIADO",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "-25deg 75deg 3.9m"
-                            }
-                        ]
-                    }
-                },
-                {
-                    sello: "III",
-                    subtitulo: "Temporada III • Malaquita y Marfil (Viridis Aether)",
-                    catalogos: {
-                        libros: [
-                            {
-                                folio: "FOLIO I • HERBARIO REAL",
-                                codigo: "[0x3A-LIBER]",
-                                titulo: "Liber Viridis de los Zares",
-                                inicial: "I",
-                                descripcion: "lumbrado con malaquita pulverizada de los montes Urales y pan de latón dorado, este tomo recoge los secretos alquímicos de la longevidad real.",
-                                material: "MARFIL / MALAQUITA",
-                                estado: "COLECCIÓN ZARINA",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "40deg 68deg 4.0m"
-                            }
-                        ],
-                        arte: [
-                            {
-                                folio: "PIEZA I • ARTE PALACIEGO",
-                                codigo: "[0x3A-ARS]",
-                                titulo: "Esfera Armilar de Esmeralda",
-                                inicial: "O",
-                                descripcion: "bra de orfebrería palaciega donde los meridianos de oro envuelven un núcleo de malaquita vetada, celebrando el dominio sobre la naturaleza.",
-                                material: "MALAQUITA / ORO 24K",
-                                estado: "EN EXHIBICIÓN",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "10deg 80deg 3.6m"
-                            }
-                        ]
-                    }
-                },
-                {
-                    sello: "IV",
-                    subtitulo: "Temporada IV • Lapislázuli y Plata (Caelum Noctis)",
-                    catalogos: {
-                        libros: [
-                            {
-                                folio: "FOLIO I • ATLAS CELESTE",
-                                codigo: "[0x4A-LIBER]",
-                                titulo: "Cartografía del Cielo Boreal",
-                                inicial: "L",
-                                descripcion: "áminas de azul cobalto profundo estampadas con plata bruñida que registran la navegación estelar de los observatorios reales.",
-                                material: "COBALTO / PLATA FINA",
-                                estado: "EDICIÓN ESTELAR",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "0deg 65deg 4.2m"
-                            }
-                        ],
-                        arte: [
-                            {
-                                folio: "PIEZA I • ARTE ASTRAL",
-                                codigo: "[0x4A-ARS]",
-                                titulo: "Cronómetro de las Pléyades",
-                                inicial: "A",
-                                descripcion: "nillos concéntricos de plata esterlina y oro blanco suspendidos en un campo magnético que mide los ciclos seculares del reino.",
-                                material: "PLATA / ORO BLANCO",
-                                estado: "SINCRONIZADO",
-                                modeloGlb: "reliquia_real.glb",
-                                gumroadUrl: "https://gumroad.com",
-                                youtubeUrl: "https://youtube.com",
-                                orbita: "-30deg 55deg 4.0m"
-                            }
-                        ]
-                    }
-                }
-            ];
+            // 1. CONFIGURACIÓN DE RUTAS EXTERNAS (ÍNDICE MAESTRO + 4 TEMPORADAS JSON)
+            const CONFIG = {
+                indiceMaestroUrl: 'data/temporadas.json',
+                rutasPorDefecto: [
+                    { id: 0, sello: "I", nombreBoton: "I. Sol Invictus", subtitulo: "Temporada I • Vitela Imperial (Sol Invictus)", archivo: "data/temporada-1.json" },
+                    { id: 1, sello: "II", nombreBoton: "II. Purpura Regia", subtitulo: "Temporada II • Pórfido Imperial (Purpura Regia)", archivo: "data/temporada-2.json" },
+                    { id: 2, sello: "III", nombreBoton: "III. Viridis Aether", subtitulo: "Temporada III • Malaquita y Marfil (Viridis Aether)", archivo: "data/temporada-3.json" },
+                    { id: 3, sello: "IV", nombreBoton: "IV. Caelum Noctis", subtitulo: "Temporada IV • Lapislázuli y Plata (Caelum Noctis)", archivo: "data/temporada-4.json" }
+                ]
+            };
 
-            // Estado actual de navegación
+            // Respaldo mínimo en caso de abrir el HTML sin servidor o antes de subir los JSON
+            const fallbackCatalogos = {
+                libros: [
+                    {
+                        folio: "FOLIO I • CÓDICE ILUMINADO",
+                        codigo: "[0x1A-LIBER]",
+                        titulo: "Grimorio del Sol Invicto",
+                        inicial: "E",
+                        descripcion: "scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar.",
+                        material: "VITELA / ORO 24K",
+                        estado: "EDICIÓN MAESTRA",
+                        modeloGlb: "reliquia_real.glb",
+                        gumroadUrl: "https://gumroad.com",
+                        youtubeUrl: "https://youtube.com",
+                        orbita: "35deg 72deg 4.2m"
+                    }
+                ],
+                arte: [
+                    {
+                        folio: "PIEZA I • ARTE REGIO",
+                        codigo: "[0x1A-ARS]",
+                        titulo: "Orbe de la Corona Eterna",
+                        inicial: "F",
+                        descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta escultura custodia los anillos de resonancia astral del imperio.",
+                        material: "ORO 24K / OBSIDIANA",
+                        estado: "PIEZA ÚNICA",
+                        modeloGlb: "reliquia_real.glb",
+                        gumroadUrl: "https://gumroad.com",
+                        youtubeUrl: "https://youtube.com",
+                        orbita: "35deg 72deg 4.2m"
+                    }
+                ]
+            };
+
+            // Estado en memoria y caché de temporadas descargadas
+            let indiceTemporadas = [...CONFIG.rutasPorDefecto];
+            const cacheTemporadas = {};
             let currentSeasonIdx = 0;
             let currentCatalogType = 'libros'; // 'libros' | 'arte'
             let currentPageIdx = 0;
@@ -954,7 +826,7 @@
             };
 
             function toRoman(num) {
-                const romans = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+                const romans = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
                 return romans[num - 1] || num;
             }
 
@@ -998,6 +870,64 @@
                 }
             }
 
+            // Cargar el índice maestro (data/temporadas.json) y luego la Temporada I
+            async function cargarIndiceMaestro() {
+                try {
+                    const respuesta = await fetch(CONFIG.indiceMaestroUrl);
+                    if (respuesta.ok) {
+                        const data = await respuesta.json();
+                        if (Array.isArray(data.temporadas) && data.temporadas.length > 0) {
+                            indiceTemporadas = data.temporadas;
+                            actualizarBotonesTemporadas();
+                        }
+                    }
+                } catch (e) {
+                    console.info('Usando configuración de rutas por defecto para temporadas.');
+                }
+
+                await cargarDatosTemporada(0);
+                renderItem(false);
+            }
+
+            function actualizarBotonesTemporadas() {
+                const contenedor = document.getElementById('season-selector');
+                if (!contenedor) return;
+                contenedor.innerHTML = '';
+                indiceTemporadas.forEach((temp, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn-season' + (idx === currentSeasonIdx ? ' active' : '');
+                    btn.textContent = temp.nombreBoton;
+                    btn.onclick = () => selectSeason(idx, btn);
+                    contenedor.appendChild(btn);
+                });
+            }
+
+            // Descargar y cachear el JSON específico de cada temporada (Lazy Loading)
+            async function cargarDatosTemporada(seasonIdx) {
+                if (cacheTemporadas[seasonIdx]) {
+                    return cacheTemporadas[seasonIdx];
+                }
+
+                const meta = indiceTemporadas[seasonIdx];
+                if (!meta || !meta.archivo) {
+                    cacheTemporadas[seasonIdx] = fallbackCatalogos;
+                    return fallbackCatalogos;
+                }
+
+                try {
+                    const respuesta = await fetch(meta.archivo);
+                    if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+                    const jsonTemporada = await respuesta.json();
+                    const catalogosNormalizados = jsonTemporada.catalogos || jsonTemporada;
+                    cacheTemporadas[seasonIdx] = catalogosNormalizados;
+                    return catalogosNormalizados;
+                } catch (error) {
+                    console.warn(`No se pudo leer ${meta.archivo}, usando respaldo.`, error);
+                    cacheTemporadas[seasonIdx] = fallbackCatalogos;
+                    return fallbackCatalogos;
+                }
+            }
+
             function init() {
                 if (!viewer) return;
 
@@ -1015,26 +945,36 @@
                     }
                 });
 
-                renderItem(false);
+                cargarIndiceMaestro();
             }
 
-            // Cambiar de Temporada (Cambia la Paleta de Color de toda la web + Carga sus catálogos)
-            function selectSeason(seasonIdx, btnElement) {
+            // Cambiar de Temporada (Cambia la Paleta de Color + Carga su JSON correspondiente)
+            async function selectSeason(seasonIdx, btnElement) {
                 if (seasonIdx === currentSeasonIdx || isAnimating) return;
                 currentSeasonIdx = seasonIdx;
                 currentPageIdx = 0;
 
-                // Cambiar atributo data-season en body para activar la nueva paleta de color real
                 document.body.setAttribute('data-season', String(seasonIdx));
 
                 document.querySelectorAll('.season-selector .btn-season').forEach(btn => btn.classList.remove('active'));
                 if (btnElement) btnElement.classList.add('active');
 
-                const temporada = temporadasCatalogo[currentSeasonIdx];
-                document.getElementById('royal-seal').textContent = temporada.sello;
-                document.getElementById('season-subtitle').textContent = temporada.subtitulo;
+                const meta = indiceTemporadas[currentSeasonIdx];
+                if (meta) {
+                    document.getElementById('royal-seal').textContent = meta.sello;
+                    document.getElementById('season-subtitle').textContent = meta.subtitulo;
+                }
 
-                renderItem(true);
+                isAnimating = true;
+                codexPanel.classList.add('page-turning');
+
+                await cargarDatosTemporada(seasonIdx);
+
+                setTimeout(() => {
+                    renderItem(false);
+                    codexPanel.classList.remove('page-turning');
+                    setTimeout(() => { isAnimating = false; }, 350);
+                }, 260);
             }
 
             // Cambiar entre Catálogo de Libros y Catálogo de Piezas de Arte
@@ -1051,8 +991,8 @@
 
             // Renderizar la pieza o libro actual con transición de paso de página
             function renderItem(animate = true) {
-                const temporada = temporadasCatalogo[currentSeasonIdx];
-                const listaActual = temporada.catalogos[currentCatalogType];
+                const catalogosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackCatalogos;
+                const listaActual = catalogosTemporada[currentCatalogType] || [];
                 const item = listaActual[currentPageIdx];
                 if (!item) return;
 
@@ -1093,14 +1033,18 @@
 
             function nextPage() {
                 if (isAnimating) return;
-                const listaActual = temporadasCatalogo[currentSeasonIdx].catalogos[currentCatalogType];
+                const catalogosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackCatalogos;
+                const listaActual = catalogosTemporada[currentCatalogType] || [];
+                if (listaActual.length === 0) return;
                 currentPageIdx = (currentPageIdx + 1) % listaActual.length;
                 renderItem(true);
             }
 
             function prevPage() {
                 if (isAnimating) return;
-                const listaActual = temporadasCatalogo[currentSeasonIdx].catalogos[currentCatalogType];
+                const catalogosTemporada = cacheTemporadas[currentSeasonIdx] || fallbackCatalogos;
+                const listaActual = catalogosTemporada[currentCatalogType] || [];
+                if (listaActual.length === 0) return;
                 currentPageIdx = (currentPageIdx - 1 + listaActual.length) % listaActual.length;
                 renderItem(true);
             }
