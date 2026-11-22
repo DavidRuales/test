@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO-REALEZA | Archivo Digital Modular</title>
+
+    <!-- =====================================================================
+         MÓDULO 0: DEPENDENCIAS EXTERNAS
+         Nota: Al subir a GitHub Pages, este script cargará el motor WebGL.
+         Puedes reemplazarlo en el futuro por Three.js o Babylons.js si deseas
+         shaders personalizados avanzados.
+    ====================================================================== -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <style>
+        /* =====================================================================
+           MÓDULO 1: SISTEMA DE DISEÑO (TOKENS CSS)
+           Modifica estas variables para cambiar toda la identidad visual al instante.
+        ====================================================================== */
+        :root {
+            --bg-void: #050508;
+            --bg-glass: rgba(15, 15, 22, 0.65);
+            --gold-royal: #d4af37;
+            --gold-dim: rgba(212, 175, 55, 0.3);
+            --holo-cyan: #00e5ff;
+            --holo-glow: rgba(0, 229, 255, 0.25);
+            --text-main: #f0ece1;
+            --text-muted: #8a8894;
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-mono: 'Courier New', Courier, monospace;
+            --border-subtle: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: var(--font-serif);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* =====================================================================
+           MÓDULO 2: ATMÓSFERA Y FONDO (CAPA BASE)
+           Grid futurista sutil + viñeta radial para dar profundidad espacial.
+        ====================================================================== */
+        .ambient-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 65%),
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* =====================================================================
+           MÓDULO 3: VISOR 3D CENTRAL (LIENZO INTERACTIVO)
+           Contiene el archivo .glb exportado desde Blender.
+        ====================================================================== */
+        .viewport-3d {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+            --progress-bar-color: var(--holo-cyan);
+        }
+
+        /* =====================================================================
+           MÓDULO 4: INTERFAZ HUD (CAPA DE INFORMACIÓN FLOTANTE)
+           Estructura modular dividida en Header, Panel Lateral y Controles.
+        ====================================================================== */
+        .hud-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none; /* Permite rotar el 3D a través de los espacios vacíos */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+
+        /* 4.1 Cabecera Dinástica */
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: var(--border-subtle);
+            padding-bottom: 1rem;
+        }
+
+        .dynasty-title {
+            font-size: 1.4rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold-royal);
+            font-weight: normal;
+        }
+
+        .dynasty-subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--holo-cyan);
+            letter-spacing: 0.15em;
+            margin-top: 0.35rem;
+        }
+
+        .status-badge {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--holo-cyan);
+            color: var(--holo-cyan);
+            background: rgba(0, 229, 255, 0.05);
+            letter-spacing: 0.1em;
+        }
+
+        /* 4.2 Panel de Ficha Técnica (Ampliable) */
+        .hud-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .artifact-card {
+            pointer-events: auto;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: var(--border-subtle);
+            border-left: 3px solid var(--gold-royal);
+            padding: 1.5rem;
+            max-width: 320px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .artifact-card:hover {
+            border-color: var(--holo-cyan);
+        }
+
+        .artifact-card h2 {
+            font-size: 1rem;
+            color: var(--gold-royal);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .artifact-card p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .tech-specs {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 0.75rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .tech-specs span strong {
+            color: var(--holo-cyan);
+            display: block;
+        }
+
+        /* 4.3 Barra de Control Inferior */
+        .hud-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: var(--border-subtle);
+            padding-top: 1rem;
+        }
+
+        .control-group {
+            pointer-events: auto;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-royal {
+            background: var(--bg-glass);
+            color: var(--gold-royal);
+            border: 1px solid var(--gold-dim);
+            padding: 0.5rem 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-royal:hover, .btn-royal.active {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--gold-royal);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn-holo {
+            border-color: rgba(0, 229, 255, 0.3);
+            color: var(--holo-cyan);
+        }
+
+        .btn-holo:hover, .btn-holo.active {
+            background: var(--holo-glow);
+            border-color: var(--holo-cyan);
+            box-shadow: 0 0 15px var(--holo-glow);
+        }
+
+        .hint-text {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .hud-layer { padding: 1rem; }
+            .hud-main { align-items: flex-end; }
+            .artifact-card { max-width: 100%; padding: 1rem; margin-bottom: 0.5rem; }
+            .hint-text { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MÓDULO 2: FONDO -->
+    <div class="ambient-grid"></div>
+
+    <!-- MÓDULO 3: VISOR 3D -->
+    <main class="viewport-3d">
+        <!-- 
+            INSTRUCCIÓN PARA GITHUB:
+            Asegúrate de que 'reliquia_real.glb' esté en la misma carpeta que este index.html.
+            Puedes añadir atributos como 'ar' para realidad aumentada en móviles.
+        -->
+        <model-viewer 
+            id="royal-viewer"
+            src="reliquia_real.glb" 
+            alt="Reliquia Dinástica 3D"
+            auto-rotate 
+            auto-rotate-delay="0"
+            rotation-per-second="15deg"
+            camera-controls 
+            shadow-intensity="1.5" 
+            environment-image="neutral" 
+            exposure="1.1"
+            camera-orbit="0deg 75deg 4.5m">
+        </model-viewer>
+    </main>
+
+    <!-- MÓDULO 4: INTERFAZ HUD -->
+    <div class="hud-layer">
+        
+        <!-- 4.1 Cabecera -->
+        <header class="hud-header">
+            <div>
+                <h1 class="dynasty-title" id="ui-title">Reliquia Dinástica IV</h1>
+                <div class="dynasty-subtitle" id="ui-subtitle">ARCHIVO IMPERIAL // SECTOR 01</div>
+            </div>
+            <div class="status-badge" id="ui-status">SISTEMA: EN LÍNEA</div>
+        </header>
+
+        <!-- 4.2 Panel de Datos -->
+        <section class="hud-main">
+            <article class="artifact-card">
+                <h2 id="card-title">Núcleo Soberano</h2>
+                <p id="card-desc">
+                    Forjado en oro ceremonial de alta pureza y suspendido mediante anillos de contención fotónica. Simboliza la continuidad del linaje hacia la era orbital.
+                </p>
+                <div class="tech-specs">
+                    <span><strong>MATERIAL</strong>Oro 24K / Obsidiana</span>
+                    <span><strong>ERA</strong>Dinastía Neo-Solar</span>
+                    <span><strong>ESTADO</strong>Escaneo Completo</span>
+                    <span><strong>FORMATO</strong>GLB / WebGL 2.0</span>
+                </div>
+            </article>
+        </section>
+
+        <!-- 4.3 Controles Interactivos -->
+        <footer class="hud-footer">
+            <div class="control-group">
+                <!-- Botones de Cámara Predefinida -->
+                <button class="btn-royal" onclick="RoyalApp.setCamera('0deg 75deg 4.5m', 'Vista General')">Vista General</button>
+                <button class="btn-royal" onclick="RoyalApp.setCamera('45deg 55deg 2.5m', 'Detalle Núcleo')">Inspección Núcleo</button>
+                <button class="btn-royal" onclick="RoyalApp.setCamera('0deg 15deg 3.8m', 'Vista Cenital')">Cenital</button>
+                
+                <!-- Botones de Estado -->
+                <button class="btn-royal btn-holo active" id="btn-rotate" onclick="RoyalApp.toggleRotation()">Rotación: ON</button>
+                <button class="btn-royal btn-holo" id="btn-light" onclick="RoyalApp.cycleExposure()">Iluminación</button>
+            </div>
+            <div class="hint-text">[ ARRASTRA: ROTAR | SCROLL: ZOOM ]</div>
+        </footer>
+
+    </div>
+
+    <!-- =====================================================================
+         MÓDULO 5: LÓGICA Y CONTROLADOR JAVASCRIPT (EXTENSIBLE)
+         Arquitectura limpia orientada a objetos para que puedas añadir más
+         reliquias, sonidos o animaciones sin romper el código existente.
+    ====================================================================== -->
+    <script>
+        const RoyalApp = {
+            // Referencias al DOM
+            viewer: document.getElementById('royal-viewer'),
+            statusBadge: document.getElementById('ui-status'),
+            btnRotate: document.getElementById('btn-rotate'),
+            
+            // Estado interno
+            state: {
+                isRotating: true,
+                exposureIndex: 0,
+                exposures: [1.1, 1.8, 0.6] // Normal, Alta (Brillo Real), Baja (Modo Sigilo)
+            },
+
+            // Inicialización
+            init() {
+                this.bindEvents();
+                console.log("Sistema Neo-Realeza inicializado correctamente.");
+            },
+
+            // Eventos del visor 3D
+            bindEvents() {
+                this.viewer.addEventListener('load', () => {
+                    this.updateStatus("RELIQUIA CARGADA");
+                });
+
+                this.viewer.addEventListener('error', () => {
+                    this.updateStatus("ERROR: FALTA .GLB");
+                });
+            },
+
+            // Cambiar ángulo de cámara suavemente
+            setCamera(orbit, label) {
+                this.viewer.cameraOrbit = orbit;
+                this.updateStatus(`CÁMARA: ${label.toUpperCase()}`);
+            },
+
+            // Activar / Pausar rotación automática
+            toggleRotation() {
+                this.state.isRotating = !this.state.isRotating;
+                if (this.state.isRotating) {
+                    this.viewer.setAttribute('auto-rotate', '');
+                    this.btnRotate.textContent = "Rotación: ON";
+                    this.btnRotate.classList.add('active');
+                } else {
+                    this.viewer.removeAttribute('auto-rotate');
+                    this.btnRotate.textContent = "Rotación: OFF";
+                    this.btnRotate.classList.remove('active');
+                }
+            },
+
+            // Alternar intensidad de iluminación
+            cycleExposure() {
+                this.state.exposureIndex = (this.state.exposureIndex + 1) % this.state.exposures.length;
+                const newExposure = this.state.exposures[this.state.exposureIndex];
+                this.viewer.exposure = newExposure;
+                this.updateStatus(`EXPOSICIÓN: ${newExposure}x`);
+            },
+
+            // Actualizar etiqueta de estado en el HUD
+            updateStatus(text) {
+                this.statusBadge.textContent = `SISTEMA: ${text}`;
+            }
+
+            /* -----------------------------------------------------------------
+               ESPACIO PARA FUTURAS AMPLIACIONES:
+               - loadArtifact(glbUrl, title, desc): Para cambiar entre varias piezas.
+               - playAmbientAudio(): Para integrar música de cámara + sintetizador.
+               - addHotspots(): Para poner puntos interactivos sobre el modelo 3D.
+            ----------------------------------------------------------------- */
+        };
+
+        // Arrancar la aplicación
+        document.addEventListener('DOMContentLoaded', () => RoyalApp.init());
+    </script>
+</body>
+</html>
