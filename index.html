@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codex Regalis | Archivo Dinástico</title>
+    <title>Codex Regalis | Archivo Dinástico de Temporadas</title>
     
     <!-- Tipografías Reales: Cinzel Decorative para títulos iluminados, Cormorant Garamond para manuscrito, Space Mono para telemetría moderna -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,15 +15,12 @@
 
     <style>
         /* ==========================================================================
-           MÓDULO 1: TOKENS DE DISEÑO (PERGAMINO IMPERIAL & LIBRO DE HORAS NEGRO)
+           MÓDULO 1: TOKENS DE DISEÑO (VITELA IMPERIAL & LIBRO DE HORAS NEGRO)
            ========================================================================== */
         :root {
-            /* Modo Diurno: Pergamino Imperial */
+            /* Modo Diurno: Vitela Imperial */
             --bg-pergamino: #f3ead8;
-            --bg-grad-centro: rgba(255, 252, 245, 0.85);
-            --bg-grad-medio: rgba(243, 234, 216, 0.4);
-            --bg-grad-borde: rgba(212, 192, 158, 0.85);
-            
+            --bg-gradiente: radial-gradient(circle at 50% 45%, rgba(255, 252, 245, 0.85) 0%, rgba(243, 234, 216, 0.4) 55%, rgba(212, 192, 158, 0.85) 100%);
             --tinta-principal: #1c1613;
             --tinta-secundaria: #4a3c31;
             
@@ -35,11 +32,12 @@
             --verde-malaquita: #1b4332;
 
             /* Acentos Modernos / Cuánticos */
-            --luz-eterea: #00b4d8;
-            --cristal-vitela: rgba(243, 234, 216, 0.76);
+            --luz-eterea: #0096c7;
+            --cristal-fondo: rgba(243, 234, 216, 0.78);
             --cristal-barra: rgba(243, 234, 216, 0.90);
             --borde-filigrana: rgba(197, 155, 39, 0.55);
-            --sombra-panel: rgba(28, 22, 19, 0.14);
+            --sombra-folio: rgba(28, 22, 19, 0.16);
+            --dropcap-bg: linear-gradient(135deg, #13315c 0%, #0a1d37 100%);
 
             /* Tipografía */
             --font-display: 'Cinzel Decorative', Georgia, serif;
@@ -47,30 +45,28 @@
             --font-tech: 'Space Mono', monospace;
 
             /* Espaciado */
-            --margen-folio: 24px;
+            --margen-folio: 22px;
         }
 
-        /* Tema Nocturno: "Libro de Horas Negro" (Manuscrito Borgoñón de Lujo) */
+        /* Modo Nocturno: "Libro de Horas Negro" (Manuscrito Borgoñón en Tinta Obsidiana) */
         body.libro-negro {
             --bg-pergamino: #0b0a0e;
-            --bg-grad-centro: rgba(26, 23, 34, 0.75);
-            --bg-grad-medio: rgba(13, 12, 16, 0.85);
-            --bg-grad-borde: rgba(5, 4, 7, 0.98);
-
+            --bg-gradiente: radial-gradient(circle at 50% 45%, rgba(26, 22, 34, 0.9) 0%, rgba(13, 12, 16, 0.95) 60%, rgba(5, 4, 7, 1) 100%);
             --tinta-principal: #e6dfd3;
             --tinta-secundaria: #a89f91;
 
             --oro-pan: #d4af37;
             --oro-brillo: #fff0a8;
-            --azul-real: #70a9ff;
-            --rojo-bermellon: #e05a5b;
-            --verde-malaquita: #4ad69b;
+            --azul-real: #64dfdf;            /* Cian luminiscente en lugar de azul oscuro */
+            --rojo-bermellon: #e05355;
+            --verde-malaquita: #52b788;
 
-            --luz-eterea: #00e5ff;
-            --cristal-vitela: rgba(16, 15, 22, 0.78);
-            --cristal-barra: rgba(16, 15, 22, 0.90);
-            --borde-filigrana: rgba(212, 175, 55, 0.55);
-            --sombra-panel: rgba(0, 0, 0, 0.65);
+            --luz-eterea: #00f5d4;
+            --cristal-fondo: rgba(16, 15, 22, 0.78);
+            --cristal-barra: rgba(14, 13, 19, 0.90);
+            --borde-filigrana: rgba(212, 175, 55, 0.45);
+            --sombra-folio: rgba(0, 0, 0, 0.65);
+            --dropcap-bg: linear-gradient(135deg, #1b1826 0%, #09080c 100%);
         }
 
         * {
@@ -88,33 +84,28 @@
             overflow: hidden;
             user-select: none;
             position: relative;
-            transition: background-color 0.8s ease, color 0.8s ease;
+            transition: background-color 0.6s ease, color 0.6s ease;
         }
 
         /* ==========================================================================
-           MÓDULO 2: TEXTURA DE VITELA Y MARCO DE FILIGRANA (ATMÓSFERA)
+           MÓDULO 2: TEXTURA DE VITELA Y MARCO DE FILIGRANA (ATMOSFERA)
            ========================================================================== */
         #folio-canvas {
             position: fixed;
             inset: 0;
             z-index: 0;
-            background: radial-gradient(circle at 50% 45%, var(--bg-grad-centro) 0%, var(--bg-grad-medio) 55%, var(--bg-grad-borde) 100%);
+            background: var(--bg-gradiente);
             pointer-events: none;
-            transition: background 0.8s ease;
+            transition: background 0.6s ease;
         }
 
         #folio-grain {
             position: fixed;
             inset: 0;
             z-index: 1;
-            opacity: 0.35;
+            opacity: 0.32;
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.28'/%3E%3C/svg%3E");
-        }
-
-        body.libro-negro #folio-grain {
-            opacity: 0.22;
-            mix-blend-mode: screen;
         }
 
         .imperial-frame {
@@ -123,19 +114,14 @@
             border: 1px solid var(--oro-pan);
             pointer-events: none;
             z-index: 5;
-            box-shadow: inset 0 0 35px rgba(197, 155, 39, 0.16);
-            transition: border-color 0.8s ease, box-shadow 0.8s ease;
+            box-shadow: inset 0 0 30px rgba(197, 155, 39, 0.15);
         }
 
         .imperial-frame::before {
             content: '';
             position: absolute;
             inset: 4px;
-            border: 1px solid rgba(19, 49, 92, 0.25);
-        }
-
-        body.libro-negro .imperial-frame::before {
-            border-color: rgba(0, 229, 255, 0.25);
+            border: 1px solid rgba(197, 155, 39, 0.25);
         }
 
         .corner-ornament {
@@ -146,7 +132,6 @@
             pointer-events: none;
             border-color: var(--oro-pan);
             border-style: solid;
-            transition: border-color 0.8s ease;
         }
         .corner-tl { top: 10px; left: 10px; border-width: 3px 0 0 3px; }
         .corner-tr { top: 10px; right: 10px; border-width: 3px 3px 0 0; }
@@ -172,15 +157,9 @@
             height: 58vh;
             border-radius: 50%;
             border: 1px dashed rgba(197, 155, 39, 0.45);
-            box-shadow: 0 0 60px rgba(197, 155, 39, 0.15), inset 0 0 40px rgba(19, 49, 92, 0.08);
+            box-shadow: 0 0 60px rgba(197, 155, 39, 0.15), inset 0 0 40px rgba(0, 180, 216, 0.08);
             pointer-events: none;
             animation: spinSlow 90s linear infinite;
-            transition: box-shadow 0.8s ease, border-color 0.8s ease;
-        }
-
-        body.libro-negro .astrolabe-halo {
-            border-color: rgba(212, 175, 55, 0.6);
-            box-shadow: 0 0 80px rgba(0, 229, 255, 0.16), inset 0 0 50px rgba(212, 175, 55, 0.18);
         }
 
         .astrolabe-halo::after {
@@ -188,11 +167,7 @@
             position: absolute;
             inset: 18px;
             border-radius: 50%;
-            border: 1px solid rgba(158, 42, 43, 0.25);
-        }
-
-        body.libro-negro .astrolabe-halo::after {
-            border-color: rgba(0, 229, 255, 0.35);
+            border: 1px solid rgba(158, 42, 43, 0.28);
         }
 
         @keyframes spinSlow {
@@ -206,23 +181,23 @@
             --poster-color: transparent;
             --progress-bar-color: var(--oro-pan);
             --progress-bar-height: 3px;
-            transition: opacity 0.45s ease, transform 0.45s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        model-viewer.relic-transition {
-            opacity: 0;
+        model-viewer.model-transitioning {
+            opacity: 0.25;
             transform: scale(0.95);
         }
 
         /* ==========================================================================
-           MÓDULO 4: INTERFAZ ILUMINADA (CABECERA, LETRA CAPITAL Y PASO DE PÁGINA)
+           MÓDULO 4: INTERFAZ ILUMINADA (CABECERA, TEMPORADAS, PERGAMINO Y CONTROLES)
            ========================================================================== */
         .royal-hud {
             position: fixed;
             inset: 0;
             z-index: 10;
             pointer-events: none;
-            padding: calc(var(--margen-folio) + 12px);
+            padding: calc(var(--margen-folio) + 10px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -232,10 +207,11 @@
         .codex-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid rgba(197, 155, 39, 0.35);
-            padding-bottom: 14px;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 12px;
+            border-bottom: 1px solid rgba(197, 155, 39, 0.35);
+            padding-bottom: 12px;
         }
 
         .crest-block {
@@ -245,98 +221,113 @@
         }
 
         .royal-seal {
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #c13839, #8a1f20);
+            background: radial-gradient(circle at 30% 30%, #c13839, #801b1c);
             border: 2px solid var(--oro-pan);
-            box-shadow: 0 4px 12px rgba(28, 22, 19, 0.25), inset 0 0 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(0, 0, 0, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--oro-brillo);
             font-family: var(--font-display);
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 900;
-            flex-shrink: 0;
         }
 
         .title-group h1 {
             font-family: var(--font-display);
-            font-size: clamp(1.2rem, 2.2vw, 1.85rem);
+            font-size: clamp(1.1rem, 2vw, 1.7rem);
             color: var(--azul-real);
             letter-spacing: 0.14em;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: color 0.8s ease, text-shadow 0.8s ease;
-        }
-
-        body.libro-negro .title-group h1 {
-            color: var(--oro-brillo);
-            text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
         }
 
         .title-group .rubric {
             font-family: var(--font-editorial);
             font-style: italic;
-            font-size: 1.05rem;
+            font-size: 0.98rem;
             color: var(--rojo-bermellon);
             letter-spacing: 0.05em;
-            margin-top: 2px;
         }
 
-        .header-right-tools {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        /* Selector de 4 Temporadas (Códices Estacionales) */
+        .season-nav {
             pointer-events: auto;
+            display: flex;
+            gap: 6px;
+            background: var(--cristal-fondo);
+            backdrop-filter: blur(8px);
+            padding: 5px;
+            border: 1px solid var(--borde-filigrana);
         }
 
-        /* Botón Selector Libro de Horas Negro */
-        .btn-theme-toggle {
-            background: var(--cristal-vitela);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--oro-pan);
+        .season-tab {
+            background: transparent;
+            border: 1px solid transparent;
             color: var(--tinta-principal);
             font-family: var(--font-display);
             font-size: 0.68rem;
             font-weight: 700;
             letter-spacing: 0.08em;
-            padding: 9px 14px;
+            padding: 6px 12px;
             cursor: pointer;
-            transition: all 0.35s ease;
+            transition: all 0.25s ease;
+        }
+
+        .season-tab:hover {
+            border-color: var(--oro-pan);
+            color: var(--oro-pan);
+        }
+
+        .season-tab.active {
+            background: var(--oro-pan);
+            color: #14110f;
+            box-shadow: 0 2px 8px rgba(197, 155, 39, 0.35);
+        }
+
+        /* Bloque Derecho de Cabecera: Modo Nocturno + Telemetría */
+        .header-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            pointer-events: auto;
         }
 
-        .btn-theme-toggle:hover {
-            border-color: var(--luz-eterea);
-            box-shadow: 0 0 14px rgba(0, 229, 255, 0.25);
+        .btn-theme {
+            background: var(--cristal-fondo);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--oro-pan);
+            color: var(--azul-real);
+            font-family: var(--font-tech);
+            font-size: 0.68rem;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.06em;
         }
 
-        body.libro-negro .btn-theme-toggle {
-            color: var(--oro-brillo);
-            border-color: var(--luz-eterea);
-            box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+        .btn-theme:hover {
+            background: var(--oro-pan);
+            color: #14110f;
         }
 
         .quantum-telemetry {
             text-align: right;
             font-family: var(--font-tech);
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--azul-real);
-            background: var(--cristal-vitela);
+            background: var(--cristal-fondo);
             backdrop-filter: blur(8px);
-            padding: 8px 14px;
+            padding: 7px 12px;
             border: 1px solid var(--borde-filigrana);
             border-right: 3px solid var(--luz-eterea);
-            transition: background 0.8s ease, color 0.8s ease;
         }
 
         .telemetry-live {
             display: inline-block;
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             background-color: var(--luz-eterea);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--luz-eterea);
@@ -349,74 +340,60 @@
             50% { opacity: 0.35; }
         }
 
-        /* Contenedor 3D para Efecto Paso de Página */
-        .manuscript-perspective {
+        /* Panel Lateral: Pergamino con Paso de Página 3D y Enlaces Externos */
+        .manuscript-wrapper {
             perspective: 1400px;
-            max-width: 390px;
             pointer-events: auto;
+            max-width: 395px;
         }
 
         .manuscript-card {
-            background: var(--cristal-vitela);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: var(--cristal-fondo);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             border: 1px solid var(--oro-pan);
-            outline: 1px solid rgba(19, 49, 92, 0.2);
+            outline: 1px solid rgba(197, 155, 39, 0.25);
             outline-offset: -5px;
-            padding: 22px 24px 18px 24px;
-            box-shadow: 0 15px 35px var(--sombra-panel);
-            position: relative;
+            padding: 20px 24px;
+            box-shadow: 0 15px 35px var(--sombra-folio);
             transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 0.65s cubic-bezier(0.645, 0.045, 0.355, 1), 
-                        opacity 0.55s ease, 
-                        background 0.8s ease, 
-                        box-shadow 0.8s ease;
+            transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.35s ease, background 0.6s ease;
         }
 
-        body.libro-negro .manuscript-card {
-            outline-color: rgba(0, 229, 255, 0.25);
-        }
-
-        /* Estados de Animación Paso de Página */
+        /* Animación de giro de página */
         .manuscript-card.page-turn-next {
-            transform: rotateY(-78deg) scale(0.96);
-            opacity: 0;
+            transform: rotateY(-18deg) translateX(-10px);
+            opacity: 0.15;
         }
 
         .manuscript-card.page-turn-prev {
-            transform: rotateY(45deg) translateX(25px) scale(0.96);
-            opacity: 0;
+            transform: rotateY(18deg) translateX(10px);
+            opacity: 0.15;
         }
 
         .folio-tag {
             font-family: var(--font-tech);
-            font-size: 0.65rem;
+            font-size: 0.63rem;
             text-transform: uppercase;
-            letter-spacing: 0.16em;
+            letter-spacing: 0.15em;
             color: var(--rojo-bermellon);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
         }
 
         .manuscript-card h2 {
             font-family: var(--font-display);
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--azul-real);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border-bottom: 1px solid rgba(197, 155, 39, 0.4);
             padding-bottom: 8px;
-            transition: color 0.8s ease;
-        }
-
-        body.libro-negro .manuscript-card h2 {
-            color: var(--oro-brillo);
         }
 
         .illuminated-text {
-            font-size: 1.06rem;
-            line-height: 1.54;
+            font-size: 1.04rem;
+            line-height: 1.5;
             color: var(--tinta-principal);
             text-align: justify;
         }
@@ -424,31 +401,25 @@
         .drop-cap {
             float: left;
             font-family: var(--font-display);
-            font-size: 3.1rem;
+            font-size: 2.9rem;
             line-height: 0.85;
             padding: 6px 10px 4px 8px;
             margin: 2px 10px 2px 0;
-            background: linear-gradient(135deg, #13315c 0%, #0a1d37 100%);
+            background: var(--dropcap-bg);
             color: var(--oro-brillo);
             border: 2px solid var(--oro-pan);
             box-shadow: inset 0 0 10px rgba(197, 155, 39, 0.5), 2px 3px 6px rgba(0,0,0,0.25);
         }
 
-        body.libro-negro .drop-cap {
-            background: linear-gradient(135deg, #071921 0%, #040d12 100%);
-            border-color: var(--luz-eterea);
-            box-shadow: inset 0 0 12px rgba(0, 229, 255, 0.45), 0 0 12px rgba(0, 229, 255, 0.25);
-        }
-
         .relic-specs {
             margin-top: 14px;
             padding-top: 10px;
-            border-top: 1px dashed rgba(197, 155, 39, 0.6);
+            border-top: 1px dashed rgba(197, 155, 39, 0.55);
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             font-family: var(--font-tech);
-            font-size: 0.68rem;
+            font-size: 0.65rem;
         }
 
         .spec-item span {
@@ -461,41 +432,80 @@
             color: var(--azul-real);
         }
 
-        /* Navegador de Folios (Paso de Página) */
-        .folio-pagination {
+        /* Botones de Acción en el Pergamino: Gumroad y YouTube */
+        .relic-actions {
             margin-top: 14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn-action-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 9px 10px;
+            border: 1px solid var(--oro-pan);
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .btn-gumroad {
+            background: var(--oro-pan);
+            color: #14110f;
+            box-shadow: 0 3px 10px rgba(197, 155, 39, 0.25);
+        }
+
+        .btn-gumroad:hover {
+            background: var(--oro-brillo);
+            transform: translateY(-1px);
+        }
+
+        .btn-youtube {
+            background: transparent;
+            color: var(--rojo-bermellon);
+            border-color: var(--rojo-bermellon);
+        }
+
+        .btn-youtube:hover {
+            background: var(--rojo-bermellon);
+            color: #fff8ee;
+            transform: translateY(-1px);
+        }
+
+        /* Paginador de Folios dentro del Pergamino */
+        .folio-pagination {
+            margin-top: 12px;
             padding-top: 10px;
             border-top: 1px solid rgba(197, 155, 39, 0.35);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-family: var(--font-tech);
+            font-size: 0.68rem;
+            color: var(--tinta-secundaria);
         }
 
         .btn-page {
             background: transparent;
             border: 1px solid var(--borde-filigrana);
-            color: var(--tinta-principal);
-            font-family: var(--font-display);
+            color: var(--azul-real);
+            font-family: var(--font-tech);
             font-size: 0.66rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            padding: 6px 11px;
+            padding: 4px 10px;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
 
         .btn-page:hover {
-            background: rgba(197, 155, 39, 0.2);
-            border-color: var(--oro-pan);
-            color: var(--oro-pan);
-        }
-
-        .page-indicator {
-            font-family: var(--font-display);
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--oro-pan);
-            letter-spacing: 0.14em;
+            background: var(--oro-pan);
+            color: #14110f;
         }
 
         /* Barra Inferior de Instrumentos Reales */
@@ -506,10 +516,9 @@
             gap: 8px;
             background: var(--cristal-barra);
             backdrop-filter: blur(10px);
-            padding: 8px 14px;
+            padding: 7px 12px;
             border: 1px solid var(--oro-pan);
-            box-shadow: 0 8px 25px var(--sombra-panel);
-            transition: background 0.8s ease;
+            box-shadow: 0 8px 25px var(--sombra-folio);
         }
 
         .btn-codex {
@@ -517,48 +526,44 @@
             border: 1px solid transparent;
             color: var(--azul-real);
             font-family: var(--font-display);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 9px 14px;
+            letter-spacing: 0.09em;
+            padding: 8px 14px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-codex:hover {
-            background: rgba(197, 155, 39, 0.15);
+            background: rgba(197, 155, 39, 0.18);
             border-color: var(--oro-pan);
             color: var(--rojo-bermellon);
         }
 
         .btn-codex.active {
-            background: #13315c;
-            color: var(--oro-brillo);
+            background: var(--oro-pan);
+            color: #14110f;
             border-color: var(--oro-pan);
-            box-shadow: 0 0 12px rgba(19, 49, 92, 0.35);
-        }
-
-        body.libro-negro .btn-codex.active {
-            background: rgba(0, 229, 255, 0.14);
-            color: var(--luz-eterea);
-            border-color: var(--luz-eterea);
-            box-shadow: 0 0 14px rgba(0, 229, 255, 0.25);
         }
 
         /* Adaptación Móvil */
-        @media (max-width: 768px) {
-            .manuscript-perspective {
-                max-width: 100%;
+        @media (max-width: 900px) {
+            .codex-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
-            .manuscript-card {
-                padding: 16px;
+            .season-nav {
+                flex-wrap: wrap;
+            }
+            .quantum-telemetry {
+                display: none;
+            }
+            .manuscript-wrapper {
+                max-width: 100%;
             }
             .royal-controls {
                 flex-wrap: wrap;
                 justify-content: center;
-            }
-            .quantum-telemetry {
-                display: none;
             }
         }
     </style>
@@ -600,60 +605,78 @@
     <!-- MÓDULO 4: INTERFAZ HUD DE MANUSCRITO REAL -->
     <div class="royal-hud">
         
-        <!-- Cabecera -->
+        <!-- Cabecera con Selector de 4 Temporadas y Modo Libro de Horas Negro -->
         <header class="codex-header">
             <div class="crest-block">
                 <div class="royal-seal" title="Sello Imperial">R</div>
                 <div class="title-group">
                     <h1>Codex Regalis</h1>
-                    <div class="rubric">Liber Reliquiarum &bull; Archivo Dinástico</div>
+                    <div class="rubric" id="season-subtitle">Temporada I &bull; Equinoccio Solar</div>
                 </div>
             </div>
 
-            <div class="header-right-tools">
-                <button class="btn-theme-toggle" id="btn-night-book" onclick="CodexApp.toggleNightBook(this)">
+            <!-- Pestañas de las 4 Temporadas -->
+            <nav class="season-nav" aria-label="Catálogos por Temporada">
+                <button class="season-tab active" onclick="CodexApp.selectSeason(0, this)">I. Sol Invictus</button>
+                <button class="season-tab" onclick="CodexApp.selectSeason(1, this)">II. Umbra Borealis</button>
+                <button class="season-tab" onclick="CodexApp.selectSeason(2, this)">III. Aether Astral</button>
+                <button class="season-tab" onclick="CodexApp.selectSeason(3, this)">IV. Corona Eterna</button>
+            </nav>
+
+            <div class="header-right">
+                <button class="btn-theme" id="btn-night-mode" onclick="CodexApp.toggleNightBook()">
                     &#9790; Libro de Horas Negro
                 </button>
-
                 <div class="quantum-telemetry">
-                    <div><span class="telemetry-live"></span>ESCÁNER ETER-ÓPTICO ACTIVO</div>
-                    <div id="orbit-readout" style="margin-top:4px; color: var(--tinta-secundaria);">AZIMUT: 35.0° | ELEV: 72.0°</div>
+                    <div><span class="telemetry-live"></span>ÓPTICA REAL ACTIVA</div>
+                    <div id="orbit-readout" style="margin-top:3px; color: var(--tinta-secundaria);">AZIMUT: 35.0° | ELEV: 72.0°</div>
                 </div>
             </div>
         </header>
 
-        <!-- Ficha Editorial Iluminada con Paso de Página -->
-        <div class="manuscript-perspective" id="codex-wrapper">
-            <aside class="manuscript-card" id="codex-panel">
+        <!-- Pergamino Editorial con Paso de Página 3D, Gumroad y YouTube -->
+        <div class="manuscript-wrapper" id="codex-panel">
+            <aside class="manuscript-card" id="manuscript-card">
                 <div class="folio-tag">
                     <span id="folio-number">FOLIO I &bull; PIEZA MAESTRA</span>
-                    <span id="folio-code" style="color: var(--azul-real);">[0x9F-AURUM]</span>
+                    <span id="folio-code" style="color: var(--azul-real);">[0x01-AURUM]</span>
                 </div>
                 <h2 id="relic-title">Orbe de la Corona Eterna</h2>
                 <p class="illuminated-text" id="relic-desc">
-                    <span class="drop-cap" id="relic-dropcap">F</span><span id="relic-body">orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta reliquia custodia los anillos de resonancia astral. Su geometría sagrada une la tradición de los antiguos soberanos con la precisión de la ingeniería cuántica.</span>
+                    <span class="drop-cap">F</span>orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta reliquia custodia los anillos de resonancia astral. Su geometría sagrada une la tradición de los antiguos soberanos con la precisión de la ingeniería cuántica.
                 </p>
+
                 <div class="relic-specs">
                     <div class="spec-item">
                         <span>MATERIA PRIMA</span>
-                        <strong id="relic-material">ORO 24K / OBSIDIANA</strong>
+                        <strong id="spec-material">ORO 24K / OBSIDIANA</strong>
                     </div>
                     <div class="spec-item">
-                        <span>CAMPO HOLOGRÁFICO</span>
-                        <strong id="relic-status" style="color: var(--verde-malaquita);">ESTABLE (99.8%)</strong>
+                        <span>ESTADO DE FORJA</span>
+                        <strong id="spec-status" style="color: var(--verde-malaquita);">EDICIÓN LIMITADA</strong>
                     </div>
                 </div>
 
-                <!-- Controles de Paso de Página -->
+                <!-- Botones de Compra (Gumroad) y Proceso (YouTube) -->
+                <div class="relic-actions">
+                    <a id="btn-gumroad" href="https://gumroad.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-gumroad">
+                        &#10022; Adquirir Pieza
+                    </a>
+                    <a id="btn-youtube" href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-youtube">
+                        &#9654; Ver Realización
+                    </a>
+                </div>
+
+                <!-- Controles de Paso de Página entre Piezas de la Temporada -->
                 <div class="folio-pagination">
-                    <button class="btn-page" onclick="CodexApp.turnPage(-1)">&larr; Anterior</button>
-                    <span class="page-indicator" id="page-roman">I / III</span>
-                    <button class="btn-page" onclick="CodexApp.turnPage(1)">Siguiente &rarr;</button>
+                    <button class="btn-page" onclick="CodexApp.changeFolio(-1)">&larr; Anterior</button>
+                    <span id="page-indicator">PIEZA I DE III</span>
+                    <button class="btn-page" onclick="CodexApp.changeFolio(1)">Siguiente &rarr;</button>
                 </div>
             </aside>
         </div>
 
-        <!-- Barra de Controles -->
+        <!-- Barra Inferior de Instrumentos Reales -->
         <nav class="royal-controls" aria-label="Instrumentos de Inspección">
             <button class="btn-codex active" onclick="CodexApp.setCameraView('general', this)">Vista Imperial</button>
             <button class="btn-codex" onclick="CodexApp.setCameraView('detalle', this)">Inspección de Oro</button>
@@ -665,57 +688,147 @@
     </div>
 
     <!-- ==========================================================================
-         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (CATÁLOGO, PASO DE PÁGINA Y TEMA)
+         MÓDULO 5: CONTROLADOR JAVASCRIPT MODULAR (4 TEMPORADAS + ORO 24K + PAGINACIÓN)
          ========================================================================== -->
     <script>
         const CodexApp = (() => {
             // ======================================================================
-            // CATÁLOGO DE RELIQUIAS (Edita aquí los nombres de tus archivos .glb)
+            // CATÁLOGO MAESTRO: 4 TEMPORADAS (Edita aquí tus .glb, Gumroad y YouTube)
             // ======================================================================
-            const reliquiasCatalogo = [
+            const temporadasCatalogo = [
                 {
-                    romano: "I",
-                    folioTag: "FOLIO I • PIEZA MAESTRA",
-                    codigo: "[0x9F-AURUM]",
-                    titulo: "Orbe de la Corona Eterna",
-                    letraCapital: "F",
-                    descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta reliquia custodia los anillos de resonancia astral. Su geometría sagrada une la tradición de los antiguos soberanos con la precisión de la ingeniería cuántica.",
-                    materia: "ORO 24K / OBSIDIANA",
-                    estado: "ESTABLE (99.8%)",
-                    archivoGlb: "reliquia_real.glb"
+                    id: "temp-1",
+                    nombre: "Temporada I • Sol Invictus",
+                    piezas: [
+                        {
+                            folio: "FOLIO I • SOL INVICTUS",
+                            codigo: "[S1-01-AURUM]",
+                            titulo: "Orbe de la Corona Eterna",
+                            letraCapital: "F",
+                            descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta reliquia custodia los anillos de resonancia astral. Su geometría sagrada une la tradición de los antiguos soberanos con la precisión de la ingeniería cuántica.",
+                            material: "ORO 24K / OBSIDIANA",
+                            estado: "DISPONIBLE EN GUMROAD",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-1",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-1"
+                        },
+                        {
+                            folio: "FOLIO II • SOL INVICTUS",
+                            codigo: "[S1-02-ASTRA]",
+                            titulo: "Astrolabio del Primer Meridiano",
+                            letraCapital: "C",
+                            descripcion: "alibrado según los manuscritos reales de navegación celeste, sus aros concéntricos calculan la alineación de los solsticios mediante pulsos electromagnéticos silenciosos incrustados en filigrana de oro.",
+                            material: "ORO MARTILLADO / ZAFIRO",
+                            estado: "EDICIÓN DE ARCHIVO",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-2",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-2"
+                        },
+                        {
+                            folio: "FOLIO III • SOL INVICTUS",
+                            codigo: "[S1-03-SIGIL]",
+                            titulo: "Sello Dinástico del Alba",
+                            letraCapital: "E",
+                            descripcion: "mblema ceremonial utilizado para lacrar los decretos imperiales de la primera era. Su núcleo óptico proyecta la firma geométrica de la casa real al recibir luz cenital directa.",
+                            material: "ORO PURO / BERMELLÓN",
+                            estado: "PIEZA ÚNICA",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-3",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-3"
+                        }
+                    ]
                 },
                 {
-                    romano: "II",
-                    folioTag: "FOLIO II • CETRO DINÁSTICO",
-                    codigo: "[0x4B-AETHER]",
-                    titulo: "Astrolabio del Soberano",
-                    letraCapital: "C",
-                    descripcion: "alibrado según los meridianos celestes del antiguo imperio, este instrumento proyecta trayectorias estelares mediante filamentos de luz coherente. Sus engranajes de latón dorado responden al pulso magnético de la cámara real.",
-                    materia: "ORO PULIDO / ZAFIRO",
-                    estado: "SINCRONIZADO (100%)",
-                    archivoGlb: "reliquia_real2.glb" // 
+                    id: "temp-2",
+                    nombre: "Temporada II • Umbra Borealis",
+                    piezas: [
+                        {
+                            folio: "FOLIO I • UMBRA BOREALIS",
+                            codigo: "[S2-01-NOCTIS]",
+                            titulo: "Diadema del Eclipse Borgoñón",
+                            letraCapital: "T",
+                            descripcion: "allada durante el solsticio de invierno en basalto estelar con incrustaciones de pan de oro líquido. Diseñada para absorber la luz ambiental y emitir destellos áureos en sus aristas.",
+                            material: "BASALTO / ORO 24K",
+                            estado: "DISPONIBLE EN GUMROAD",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-s2-1",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-s2-1"
+                        },
+                        {
+                            folio: "FOLIO II • UMBRA BOREALIS",
+                            codigo: "[S2-02-CHRONO]",
+                            titulo: "Relicario del Tiempo Detenido",
+                            letraCapital: "C",
+                            descripcion: "ustodia en su interior un núcleo magnético suspendido en vacío perfecto, rodeado de inscripciones iluminadas que narran la sucesión de los antiguos monarcas.",
+                            material: "TITANIO NEGRO / ORO",
+                            estado: "SERIE LIMITADA",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-s2-2",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-s2-2"
+                        }
+                    ]
                 },
                 {
-                    romano: "III",
-                    folioTag: "FOLIO III • SELLO DE ESTADO",
-                    codigo: "[0x7E-IGNIS]",
-                    titulo: "Custodia del Fuego Ancestral",
-                    letraCapital: "E",
-                    descripcion: "rigida como emblema de continuidad dinástica, contiene un núcleo fotónico suspendido dentro de una celosía gótica de oro martillado. Representa el pacto perpetuo entre la memoria de los linajes y el porvenir.",
-                    materia: "ORO / CRISTAL CUÁNTICO",
-                    estado: "ACTIVO (98.4%)",
-                    archivoGlb: "reliquia_real3.glb" // 
+                    id: "temp-3",
+                    nombre: "Temporada III • Aether Astral",
+                    piezas: [
+                        {
+                            folio: "FOLIO I • AETHER ASTRAL",
+                            codigo: "[S3-01-ETER]",
+                            titulo: "Esfera Armilar Cuántica",
+                            letraCapital: "S",
+                            descripcion: "íntesis entre la astronomía renacentista y la física de campos. Cada anillo orbital representa una frecuencia armónica sincronizada con la rotación terrestre.",
+                            material: "ORO SOLAR / CRISTAL",
+                            estado: "DISPONIBLE EN GUMROAD",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-s3-1",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-s3-1"
+                        },
+                        {
+                            folio: "FOLIO II • AETHER ASTRAL",
+                            codigo: "[S3-02-VORTEX]",
+                            titulo: "Cetro de Resonancia Celeste",
+                            letraCapital: "I",
+                            descripcion: "nstrumento de mando ceremonial coronado por un poliedro áureo que canaliza la luz en patrones fractales sobre cualquier superficie de vitela o mármol.",
+                            material: "ORO 24K / LAPISLÁZULI",
+                            estado: "DISPONIBLE EN GUMROAD",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-s3-2",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-s3-2"
+                        }
+                    ]
+                },
+                {
+                    id: "temp-4",
+                    nombre: "Temporada IV • Corona Eterna",
+                    piezas: [
+                        {
+                            folio: "FOLIO I • CORONA ETERNA",
+                            codigo: "[S4-01-IMPERIUM]",
+                            titulo: "Corona Suprema de la Síntesis",
+                            letraCapital: "O",
+                            descripcion: "bra cumbre del archivo dinástico. Reúne los metales nobles de las tres temporadas anteriores en una arquitectura imposible de filigrana flotante.",
+                            material: "ORO PURO / DIAMANTE",
+                            estado: "COLECCIÓN MAESTRA",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com/l/tu-pieza-s4-1",
+                            youtubeUrl: "https://youtube.com/watch?v=tu-video-s4-1"
+                        }
+                    ]
                 }
             ];
 
-            let currentIndex = 0;
-            let isTurning = false;
+            // Estado actual de navegación
+            let currentSeasonIdx = 0;
+            let currentPieceIdx = 0;
+            let isAnimatingPage = false;
 
             // Referencias al DOM
             const viewer = document.getElementById('royal-viewer');
             const readout = document.getElementById('orbit-readout');
             const codexPanel = document.getElementById('codex-panel');
-            const codexWrapper = document.getElementById('codex-wrapper');
+            const manuscriptCard = document.getElementById('manuscript-card');
+            const seasonSubtitle = document.getElementById('season-subtitle');
 
             const cameraPresets = {
                 general: { orbit: '35deg 72deg 4.2m', fov: '45deg' },
@@ -723,8 +836,103 @@
                 cenital: { orbit: '0deg 12deg 4.0m', fov: '45deg' }
             };
 
+            const romanos = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+            function aRomano(num) {
+                return romanos[num - 1] || num;
+            }
+
+            // Aplicar propiedades físicas de Oro 24K al modelo cargado
+            function aplicarOro24K() {
+                if (!viewer || !viewer.model) return;
+                viewer.model.materials.forEach((mat) => {
+                    const nombre = (mat.name || "").toLowerCase();
+                    // Si el material no es explícitamente obsidiana/base oscura, darle acabado Oro 24k
+                    if (!nombre.includes("obsidiana") && !nombre.includes("base")) {
+                        mat.pbrMetallicRoughness.setBaseColorFactor([1.0, 0.84, 0.12, 1.0]);
+                        mat.pbrMetallicRoughness.setMetallicFactor(1.0);
+                        mat.pbrMetallicRoughness.setRoughnessFactor(0.16);
+                    }
+                });
+            }
+
+            // Renderizar los datos de la pieza actual en el pergamino y visor
+            function renderCurrentPiece(animateDirection = 0) {
+                const temporada = temporadasCatalogo[currentSeasonIdx];
+                const pieza = temporada.piezas[currentPieceIdx];
+                if (!pieza) return;
+
+                const updateDOM = () => {
+                    seasonSubtitle.textContent = temporada.nombre;
+                    document.getElementById('folio-number').textContent = pieza.folio;
+                    document.getElementById('folio-code').textContent = pieza.codigo;
+                    document.getElementById('relic-title').textContent = pieza.titulo;
+                    document.getElementById('relic-desc').innerHTML = `<span class="drop-cap">${pieza.letraCapital}</span>${pieza.descripcion}`;
+                    document.getElementById('spec-material').textContent = pieza.material;
+                    document.getElementById('spec-status').textContent = pieza.estado;
+                    document.getElementById('btn-gumroad').href = pieza.gumroadUrl;
+                    document.getElementById('btn-youtube').href = pieza.youtubeUrl;
+                    document.getElementById('page-indicator').textContent = `PIEZA ${aRomano(currentPieceIdx + 1)} DE ${aRomano(temporada.piezas.length)}`;
+
+                    // Cambiar el modelo 3D solo si es distinto al actual
+                    if (viewer && viewer.getAttribute('src') !== pieza.modeloGlb) {
+                        viewer.classList.add('model-transitioning');
+                        viewer.setAttribute('src', pieza.modeloGlb);
+                    }
+                };
+
+                if (animateDirection !== 0 && manuscriptCard) {
+                    isAnimatingPage = true;
+                    const animClass = animateDirection > 0 ? 'page-turn-next' : 'page-turn-prev';
+                    manuscriptCard.classList.add(animClass);
+
+                    setTimeout(() => {
+                        updateDOM();
+                        manuscriptCard.classList.remove(animClass);
+                        setTimeout(() => { isAnimatingPage = false; }, 350);
+                    }, 260);
+                } else {
+                    updateDOM();
+                }
+            }
+
+            // Cambiar de Temporada (1 a 4)
+            function selectSeason(seasonIndex, btnElement) {
+                if (isAnimatingPage || seasonIndex === currentSeasonIdx) return;
+                currentSeasonIdx = seasonIndex;
+                currentPieceIdx = 0;
+
+                document.querySelectorAll('.season-tab').forEach(tab => tab.classList.remove('active'));
+                if (btnElement) btnElement.classList.add('active');
+
+                renderCurrentPiece(1);
+            }
+
+            // Paso de página entre piezas de la temporada actual
+            function changeFolio(delta) {
+                if (isAnimatingPage) return;
+                const total = temporadasCatalogo[currentSeasonIdx].piezas.length;
+                if (total <= 1) return;
+
+                currentPieceIdx = (currentPieceIdx + delta + total) % total;
+                renderCurrentPiece(delta);
+            }
+
+            // Alternar Modo Nocturno "Libro de Horas Negro"
+            function toggleNightBook() {
+                const isNight = document.body.classList.toggle('libro-negro');
+                const btn = document.getElementById('btn-night-mode');
+                if (btn) {
+                    btn.innerHTML = isNight ? '&#9728; Vitela Imperial' : '&#9790; Libro de Horas Negro';
+                }
+            }
+
             function init() {
                 if (!viewer) return;
+
+                viewer.addEventListener('load', () => {
+                    viewer.classList.remove('model-transitioning');
+                    aplicarOro24K();
+                });
 
                 viewer.addEventListener('camera-change', () => {
                     const orbit = viewer.getCameraOrbit();
@@ -735,68 +943,10 @@
                     }
                 });
 
-                // Permitir navegación con flechas del teclado
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowRight') turnPage(1);
-                    if (e.key === 'ArrowLeft') turnPage(-1);
-                });
+                // Cargar estado inicial
+                renderCurrentPiece(0);
             }
 
-            // ======================================================================
-            // MODO NOCTURNO: "LIBRO DE HORAS NEGRO"
-            // ======================================================================
-            function toggleNightBook(btnElement) {
-                const isNight = document.body.classList.toggle('libro-negro');
-                if (btnElement) {
-                    btnElement.innerHTML = isNight 
-                        ? '&#9788; Pergamino Imperial' 
-                        : '&#9790; Libro de Horas Negro';
-                }
-            }
-
-            // ======================================================================
-            // TRANSICIÓN TIPO PASO DE PÁGINA ENTRE RELIQUIAS
-            // ======================================================================
-            function turnPage(direction) {
-                if (isTurning || !codexPanel) return;
-                isTurning = true;
-
-                const total = reliquiasCatalogo.length;
-                currentIndex = (currentIndex + direction + total) % total;
-                const nuevaReliquia = reliquiasCatalogo[currentIndex];
-
-                // 1. Iniciar animación de giro de hoja y desvanecimiento sutil del modelo
-                const animClass = direction > 0 ? 'page-turn-next' : 'page-turn-prev';
-                codexPanel.classList.add(animClass);
-                if (viewer) viewer.classList.add('relic-transition');
-
-                // 2. Actualizar contenido en el punto medio del giro
-                setTimeout(() => {
-                    document.getElementById('folio-number').textContent = nuevaReliquia.folioTag;
-                    document.getElementById('folio-code').textContent = nuevaReliquia.codigo;
-                    document.getElementById('relic-title').textContent = nuevaReliquia.titulo;
-                    document.getElementById('relic-dropcap').textContent = nuevaReliquia.letraCapital;
-                    document.getElementById('relic-body').textContent = nuevaReliquia.descripcion;
-                    document.getElementById('relic-material').textContent = nuevaReliquia.materia;
-                    document.getElementById('relic-status').textContent = nuevaReliquia.estado;
-                    document.getElementById('page-roman').textContent = `${nuevaReliquia.romano} / III`;
-
-                    // Cambiar el archivo 3D solo si es distinto al actual
-                    if (viewer && viewer.getAttribute('src') !== nuevaReliquia.archivoGlb) {
-                        viewer.setAttribute('src', nuevaReliquia.archivoGlb);
-                    }
-
-                    // 3. Desplegar la nueva página
-                    codexPanel.classList.remove(animClass);
-                    if (viewer) viewer.classList.remove('relic-transition');
-
-                    setTimeout(() => {
-                        isTurning = false;
-                    }, 500);
-                }, 420);
-            }
-
-            // Cambiar ángulo de cámara
             function setCameraView(presetKey, btnElement) {
                 const preset = cameraPresets[presetKey];
                 if (!preset || !viewer) return;
@@ -810,7 +960,6 @@
                 if (btnElement) btnElement.classList.add('active');
             }
 
-            // Alternar rotación automática
             function toggleRotation(btnElement) {
                 if (!viewer) return;
                 const isRotating = viewer.hasAttribute('auto-rotate');
@@ -825,29 +974,29 @@
                 }
             }
 
-            // Mostrar/Ocultar el panel del manuscrito
             function toggleManuscript(btnElement) {
-                if (!codexWrapper) return;
-                const isHidden = codexWrapper.style.opacity === '0';
-                codexWrapper.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                if (!codexPanel) return;
+                const isHidden = codexPanel.style.opacity === '0';
+                codexPanel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                 
                 if (isHidden) {
-                    codexWrapper.style.opacity = '1';
-                    codexWrapper.style.transform = 'translateX(0)';
-                    codexWrapper.style.pointerEvents = 'auto';
+                    codexPanel.style.opacity = '1';
+                    codexPanel.style.transform = 'translateX(0)';
+                    codexPanel.style.pointerEvents = 'auto';
                     btnElement.textContent = 'Ocultar Códice';
                 } else {
-                    codexWrapper.style.opacity = '0';
-                    codexWrapper.style.transform = 'translateX(-20px)';
-                    codexWrapper.style.pointerEvents = 'none';
+                    codexPanel.style.opacity = '0';
+                    codexPanel.style.transform = 'translateX(-20px)';
+                    codexPanel.style.pointerEvents = 'none';
                     btnElement.textContent = 'Mostrar Códice';
                 }
             }
 
             return {
                 init,
+                selectSeason,
+                changeFolio,
                 toggleNightBook,
-                turnPage,
                 setCameraView,
                 toggleRotation,
                 toggleManuscript
