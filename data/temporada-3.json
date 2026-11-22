@@ -1,0 +1,58 @@
+{
+  "libros": [
+    {
+      "folio": "FOLIO I • HERBARIO REAL",
+      "codigo": "[0x3A-LIBER]",
+      "titulo": "Liber Viridis de los Zares",
+      "inicial": "I",
+      "descripcion": "lumbrado con malaquita pulverizada de los montes Urales y pan de latón dorado, este tomo recoge los secretos alquímicos de la longevidad real.",
+      "material": "MARFIL / MALAQUITA",
+      "estado": "COLECCIÓN ZARINA",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "40deg 68deg 4.0m"
+    },
+    {
+      "folio": "FOLIO II • CRÓNICA BOTÁNICA",
+      "codigo": "[0x3B-LIBER]",
+      "titulo": "Tratado del Jardín Imperial",
+      "inicial": "E",
+      "descripcion": "scrito sobre vitela de marfil con tintas de verdete y oro bruñido, cataloga las especies sagradas cultivadas en los invernaderos de invierno.",
+      "material": "VITELA MARFIL / LATÓN",
+      "estado": "EDICIÓN PALACIEGA",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "-20deg 72deg 3.9m"
+    }
+  ],
+  "arte": [
+    {
+      "folio": "PIEZA I • ARTE PALACIEGO",
+      "codigo": "[0x3A-ARS]",
+      "titulo": "Esfera Armilar de Esmeralda",
+      "inicial": "O",
+      "descripcion": "bra de orfebrería palaciega donde los meridianos de oro envuelven un núcleo de malaquita vetada, celebrando el dominio sobre la naturaleza.",
+      "material": "MALAQUITA / ORO 24K",
+      "estado": "EN EXHIBICIÓN",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "10deg 80deg 3.6m"
+    },
+    {
+      "folio": "PIEZA II • ARTE PALACIEGO",
+      "codigo": "[0x3B-ARS]",
+      "titulo": "Cetro de Malaquita de los Urales",
+      "inicial": "F",
+      "descripcion": "orjado con vetas minerales de malaquita imperial engastadas en oro cincelado, simboliza la armonía entre la tierra y la corona soberana.",
+      "material": "MALAQUITA / ORO CINCELADO",
+      "estado": "CUSTODIADO",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "35deg 65deg 4.1m"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "sello": "IV",
+  "subtitulo": "Temporada IV • Lapislázuli Celeste y Plata (Caelum Noctis)",
+  "catalogos": {
+    "libros": [
+      {
+        "folio": "FOLIO I • ATLAS CELESTE",
+        "codigo": "[0x4A-LIBER]",
+        "titulo": "Cartografía del Cielo Boreal",
+        "inicial": "L",
+        "descripcion": "áminas de azul cobalto profundo estampadas con plata bruñida que registran la navegación estelar y los meridianos secretos de los observatorios reales.",
+        "material": "COBALTO / PLATA FINA",
+        "estado": "EDICIÓN ESTELAR",
+        "modeloGlb": "reliquia_real.glb",
+        "gumroadUrl": "https://gumroad.com",
+        "youtubeUrl": "https://youtube.com",
+        "orbita": "0deg 65deg 4.2m"
+      },
+      {
+        "folio": "FOLIO II • CRÓNICA SIDERAL",
+        "codigo": "[0x4B-LIBER]",
+        "titulo": "Tratado de las Mareas Cósmicas",
+        "inicial": "E",
+        "descripcion": "scrito sobre papel celeste de hilo con tintas de plata oxidada, este códice calcula el retorno de los cometas dinásticos y la armonía de las esferas.",
+        "material": "PAPEL CELESTE / PLATA",
+        "estado": "ARCHIVO REAL",
+        "modeloGlb": "reliquia_real.glb",
+        "gumroadUrl": "https://gumroad.com",
+        "youtubeUrl": "https://youtube.com",
+        "orbita": "20deg 72deg 4.0m"
+      }
+    ],
+    "arte": [
+      {
+        "folio": "PIEZA I • ARTE ASTRAL",
+        "codigo": "[0x4A-ARS]",
+        "titulo": "Cronómetro de las Pléyades",
+        "inicial": "A",
+        "descripcion": "nillos concéntricos de plata esterlina y oro blanco suspendidos en un campo magnético que mide los ciclos seculares del reino con precisión astronómica.",
+        "material": "PLATA / ORO BLANCO",
+        "estado": "SINCRONIZADO",
+        "modeloGlb": "reliquia_real.glb",
+        "gumroadUrl": "https://gumroad.com",
+        "youtubeUrl": "https://youtube.com",
+        "orbita": "-30deg 55deg 4.0m"
+      },
+      {
+        "folio": "PIEZA II • ARTE CELESTE",
+        "codigo": "[0x4B-ARS]",
+        "titulo": "Esfera de Lapislázuli Nocturno",
+        "inicial": "T",
+        "descripcion": "allada en piedra de lapislázuli de Badajshán con incrustaciones de plata pura que dibujan las constelaciones regias del hemisferio norte.",
+        "material": "LAPISLÁZULI / PLATA",
+        "estado": "CUSTODIADO",
+        "modeloGlb": "reliquia_real.glb",
+        "gumroadUrl": "https://gumroad.com",
+        "youtubeUrl": "https://youtube.com",
+        "orbita": "40deg 68deg 3.8m"
+      }
+    ]
+  }
+}
