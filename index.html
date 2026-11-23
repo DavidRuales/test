@@ -134,7 +134,7 @@
             inset: 0;
             z-index: 0;
             background: radial-gradient(circle at 50% 45%, var(--bg-luz-centro) 0%, var(--bg-luz-medio) 55%, var(--bg-sombra-borde) 100%);
-            opacity: 0.35;
+            opacity: 0.35; /* <--- AGREGA ESTA LÍNEA PARA BAJAR LA INTENSIDAD A UN 45% */
             pointer-events: none;
             transition: background 0.7s ease;
         }
@@ -229,7 +229,7 @@
         }
 
         /* ==========================================================================
-           MÓDULO 4: INTERFAZ ILUMINADA (CABECERA, 4 TEMPORADAS, CATÁLOGOS Y GIRO 180°)
+           MÓDULO 4: INTERFAZ ILUMINADA (CABECERA, 4 TEMPORADAS, CATÁLOGOS Y CÓDICE)
            ========================================================================== */
         .royal-hud {
             position: fixed;
@@ -334,7 +334,7 @@
             box-shadow: 0 2px 10px rgba(var(--soberano-rgb), 0.3);
         }
 
-        /* Medallón Heráldico Real */
+        /* Medallón Heráldico Real (Reemplazo del escáner óptico en esquina superior derecha) */
         .heraldic-crest-box {
             pointer-events: auto;
             width: 56px;
@@ -369,110 +369,39 @@
             transition: fill 0.6s ease;
         }
 
-        /* ==========================================================================
-           PANEL LATERAL CON GIRO 3D COMPLETO (180° CARD FLIP)
-           ========================================================================== */
+        /* Panel Lateral: Hoja de Manuscrito con Selector Dual de Catálogos y Paso de Página */
         .manuscript-wrapper {
             pointer-events: auto;
-            width: 100%;
             max-width: 400px;
-            perspective: 1600px;
+            perspective: 1400px;
         }
 
-        .manuscript-flipper {
-            position: relative;
-            width: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.78s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
-        }
-
-        /* Estado girado 180 grados para ver el reverso (foto del portador) */
-        .manuscript-flipper.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        /* Animación de paso de página entre folios */
-        .manuscript-flipper.page-turning {
-            transform: rotateY(-22deg) translateX(-10px);
-            opacity: 0.25;
-        }
-
-        .manuscript-face {
-            width: 100%;
+        .manuscript-card {
             background: var(--cristal-panel);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid var(--metal-principal);
             outline: 1px solid rgba(var(--soberano-rgb), 0.22);
             outline-offset: -5px;
-            padding: 16px 22px 18px;
+            padding: 18px 24px 20px;
             box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transition: background 0.6s ease, border-color 0.6s ease;
-        }
-
-        .manuscript-front {
             position: relative;
-            z-index: 2;
-            transform: rotateY(0deg);
+            transform-origin: left center;
+            transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, background 0.6s ease, border-color 0.6s ease;
         }
 
-        .manuscript-back {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            transform: rotateY(180deg);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        .manuscript-card.page-turning {
+            transform: rotateY(-22deg) translateX(-10px);
+            opacity: 0.25;
         }
 
-        /* Botón superior para girar la tarjeta 180° (Anverso / Reverso) */
-        .card-flip-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .flip-hint-label {
-            font-family: var(--font-tech);
-            font-size: 0.58rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--tinta-secundaria);
-        }
-
-        .btn-flip-card {
-            background: rgba(var(--metal-rgb), 0.14);
-            border: 1px solid var(--metal-principal);
-            color: var(--color-soberano);
-            font-family: var(--font-display);
-            font-size: 0.62rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            padding: 5px 11px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-flip-card:hover {
-            background: var(--color-soberano);
-            color: var(--metal-brillo);
-            box-shadow: 0 2px 8px rgba(var(--soberano-rgb), 0.25);
-        }
-
-        /* Selector Dual de Catálogo (Libros vs Piezas de Arte) */
+        /* Selector Dual de Catálogo (Libros vs Piezas de Arte) sobre la descripción */
         .catalog-switcher {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 6px;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
             border-bottom: 1px solid rgba(var(--metal-rgb), 0.35);
         }
 
@@ -484,7 +413,7 @@
             font-size: 0.66rem;
             font-weight: 700;
             letter-spacing: 0.07em;
-            padding: 7px 6px;
+            padding: 8px 6px;
             cursor: pointer;
             text-align: center;
             transition: all 0.3s ease;
@@ -514,29 +443,29 @@
             transition: color 0.6s ease;
         }
 
-        .manuscript-face h2 {
+        .manuscript-card h2 {
             font-family: var(--font-display);
-            font-size: 1.15rem;
+            font-size: 1.18rem;
             color: var(--color-soberano);
-            margin-bottom: 9px;
+            margin-bottom: 10px;
             border-bottom: 1px solid rgba(var(--metal-rgb), 0.4);
-            padding-bottom: 6px;
+            padding-bottom: 7px;
             transition: color 0.6s ease;
         }
 
         .illuminated-text {
-            font-size: 1.02rem;
-            line-height: 1.48;
+            font-size: 1.04rem;
+            line-height: 1.5;
             color: var(--tinta-principal);
             text-align: justify;
-            min-height: 98px;
+            min-height: 102px;
             transition: color 0.6s ease;
         }
 
         .drop-cap {
             float: left;
             font-family: var(--font-display);
-            font-size: 2.8rem;
+            font-size: 2.9rem;
             line-height: 0.85;
             padding: 6px 10px 4px 8px;
             margin: 2px 10px 2px 0;
@@ -548,87 +477,29 @@
         }
 
         .relic-specs {
-            margin-top: 10px;
-            padding-top: 9px;
+            margin-top: 12px;
+            padding-top: 10px;
             border-top: 1px dashed rgba(var(--metal-rgb), 0.55);
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             font-family: var(--font-tech);
-            font-size: 0.64rem;
+            font-size: 0.65rem;
         }
 
         .spec-item span {
             display: block;
             color: var(--tinta-secundaria);
-            font-size: 0.57rem;
+            font-size: 0.58rem;
         }
 
         .spec-item strong {
             color: var(--color-soberano);
         }
 
-        /* Estilos del Reverso: Retrato del Modelo usando la Pieza */
-        .bearer-portrait-frame {
-            position: relative;
-            width: 100%;
-            flex: 1;
-            min-height: 210px;
-            max-height: 255px;
-            border: 1px solid var(--metal-principal);
-            outline: 1px solid rgba(var(--soberano-rgb), 0.25);
-            outline-offset: -4px;
-            background: radial-gradient(circle at center, rgba(var(--metal-rgb), 0.12), rgba(var(--soberano-rgb), 0.18));
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 4px 0 8px;
-        }
-
-        .bearer-portrait-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.6s ease;
-        }
-
-        .bearer-portrait-frame:hover img {
-            transform: scale(1.03);
-        }
-
-        .bearer-placeholder {
-            text-align: center;
-            padding: 18px;
-            color: var(--tinta-secundaria);
-            font-style: italic;
-            font-size: 0.95rem;
-        }
-
-        .bearer-placeholder strong {
-            display: block;
-            font-family: var(--font-display);
-            font-style: normal;
-            font-size: 0.75rem;
-            letter-spacing: 0.12em;
-            color: var(--color-soberano);
-            margin-bottom: 6px;
-        }
-
-        .bearer-caption {
-            font-family: var(--font-editorial);
-            font-style: italic;
-            font-size: 0.96rem;
-            line-height: 1.35;
-            color: var(--tinta-secundaria);
-            text-align: center;
-            margin-bottom: 6px;
-        }
-
         /* Enlaces de Acción en el Pergamino (Gumroad + YouTube) */
         .relic-actions {
-            margin-top: 10px;
+            margin-top: 12px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
@@ -641,10 +512,10 @@
             gap: 6px;
             text-decoration: none;
             font-family: var(--font-display);
-            font-size: 0.65rem;
+            font-size: 0.66rem;
             font-weight: 700;
             letter-spacing: 0.06em;
-            padding: 8px 8px;
+            padding: 9px 8px;
             border: 1px solid var(--metal-principal);
             transition: all 0.3s ease;
             text-align: center;
@@ -675,8 +546,8 @@
 
         /* Navegación de Paso de Página dentro del Códice */
         .folio-pagination {
-            margin-top: 10px;
-            padding-top: 9px;
+            margin-top: 12px;
+            padding-top: 10px;
             border-top: 1px solid rgba(var(--metal-rgb), 0.35);
             display: flex;
             justify-content: space-between;
@@ -688,9 +559,9 @@
             border: 1px solid rgba(var(--metal-rgb), 0.55);
             color: var(--color-soberano);
             font-family: var(--font-display);
-            font-size: 0.64rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            padding: 5px 11px;
+            padding: 6px 12px;
             cursor: pointer;
             transition: all 0.25s ease;
         }
@@ -751,7 +622,7 @@
         @media (max-width: 900px) {
             .heraldic-crest-box { width: 44px; height: 44px; }
             .manuscript-wrapper { max-width: 100%; }
-            .manuscript-face { padding: 14px 16px; }
+            .manuscript-card { padding: 14px 16px; }
             .royal-controls { flex-wrap: wrap; justify-content: center; }
         }
     </style>
@@ -811,7 +682,7 @@
                 <button class="btn-season" onclick="CodexApp.selectSeason(3, this)">IV. Caelum Noctis</button>
             </div>
 
-            <!-- Medallón Heráldico Real -->
+            <!-- Medallón Heráldico Real: sube 'assets/escudo-real.png' para mostrar tu propio escudo o usa el emblema imperial por defecto -->
             <div class="heraldic-crest-box" title="Escudo de Armas Real">
                 <img id="heraldic-img" src="assets/escudo-real.png" alt="Escudo Real"
                      onerror="this.style.display='none'; document.getElementById('heraldic-svg').style.display='block';">
@@ -822,103 +693,53 @@
             </div>
         </header>
 
-        <!-- Ficha Editorial Iluminada con Giro 3D Completo 180° -->
+        <!-- Ficha Editorial Iluminada con Selector Dual de Catálogos -->
         <aside class="manuscript-wrapper" id="codex-wrapper">
-            <div class="manuscript-flipper" id="codex-panel">
+            <div class="manuscript-card" id="codex-panel">
                 
-                <!-- CARA FRONTAL: DESCRIPCIÓN DEL CÓDICE -->
-                <div class="manuscript-face manuscript-front">
-                    
-                    <!-- Barra superior con botón de giro 180° -->
-                    <div class="card-flip-bar">
-                        <span class="flip-hint-label">ANVERSO &bull; CÓDICE</span>
-                        <button class="btn-flip-card" onclick="CodexApp.flipCard()" title="Girar 180° para ver al portador">
-                            &#8635; Ver en Portador
-                        </button>
-                    </div>
-
-                    <!-- Selector de Catálogo sobre la descripción: Libros vs Piezas de Arte -->
-                    <div class="catalog-switcher" role="tablist" aria-label="Catálogos de Temporada">
-                        <button class="btn-catalog-type active" id="tab-libros" onclick="CodexApp.selectCatalogType('libros')">&#128220; Códices y Libros</button>
-                        <button class="btn-catalog-type" id="tab-arte" onclick="CodexApp.selectCatalogType('arte')">&#9813; Piezas de Arte</button>
-                    </div>
-
-                    <div class="folio-tag">
-                        <span id="folio-label">FOLIO I &bull; CÓDICE ILUMINADO</span>
-                        <span id="folio-code" style="color: var(--color-soberano);">[0x1A-LIBER]</span>
-                    </div>
-                    
-                    <h2 id="relic-title">Grimorio del Sol Invicto</h2>
-                    
-                    <p class="illuminated-text" id="relic-desc">
-                        <span class="drop-cap">E</span>scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.
-                    </p>
-                    
-                    <div class="relic-specs">
-                        <div class="spec-item">
-                            <span>MATERIA PRIMA</span>
-                            <strong id="spec-material">VITELA / ORO 24K</strong>
-                        </div>
-                        <div class="spec-item">
-                            <span>ESTADO DE CONSERVACIÓN</span>
-                            <strong id="spec-status" style="color: var(--color-estado);">EDICIÓN MAESTRA</strong>
-                        </div>
-                    </div>
-
-                    <!-- Botones hacia Gumroad y YouTube -->
-                    <div class="relic-actions">
-                        <a id="link-gumroad" href="https://gumroad.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-gumroad">
-                            &#10022; Adquirir Pieza
-                        </a>
-                        <a id="link-youtube" href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-youtube">
-                            &#9654; Ver Realización
-                        </a>
-                    </div>
-
-                    <!-- Navegación Paso de Página dentro del Catálogo Activo -->
-                    <div class="folio-pagination">
-                        <button class="btn-page" onclick="CodexApp.prevPage()">&#9666; Anterior</button>
-                        <span class="folio-counter" id="folio-counter">I / II</span>
-                        <button class="btn-page" onclick="CodexApp.nextPage()">Siguiente &#9656;</button>
-                    </div>
-
+                <!-- Selector de Catálogo sobre la descripción: Libros vs Piezas de Arte -->
+                <div class="catalog-switcher" role="tablist" aria-label="Catálogos de Temporada">
+                    <button class="btn-catalog-type active" id="tab-libros" onclick="CodexApp.selectCatalogType('libros')">&#128220; Códices y Libros</button>
+                    <button class="btn-catalog-type" id="tab-arte" onclick="CodexApp.selectCatalogType('arte')">&#9813; Piezas de Arte</button>
                 </div>
 
-                <!-- CARA POSTERIOR (REVERSO 180°): IMAGEN DEL MODELO PORTANDO EL OBJETO -->
-                <div class="manuscript-face manuscript-back">
-                    <div>
-                        <div class="card-flip-bar">
-                            <span class="flip-hint-label">REVERSO &bull; PORTADOR REAL</span>
-                            <button class="btn-flip-card" onclick="CodexApp.flipCard()" title="Volver a la descripción">
-                                &#8634; Volver al Códice
-                            </button>
-                        </div>
-
-                        <h2 id="bearer-title">Grimorio del Sol Invicto</h2>
+                <div class="folio-tag">
+                    <span id="folio-label">FOLIO I &bull; CÓDICE ILUMINADO</span>
+                    <span id="folio-code" style="color: var(--color-soberano);">[0x1A-LIBER]</span>
+                </div>
+                
+                <h2 id="relic-title">Grimorio del Sol Invicto</h2>
+                
+                <p class="illuminated-text" id="relic-desc">
+                    <span class="drop-cap">E</span>scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.
+                </p>
+                
+                <div class="relic-specs">
+                    <div class="spec-item">
+                        <span>MATERIA PRIMA</span>
+                        <strong id="spec-material">VITELA / ORO 24K</strong>
                     </div>
-
-                    <div class="bearer-portrait-frame">
-                        <img id="bearer-img" src="" alt="Modelo portando la pieza real" style="display:none;"
-                             onload="this.style.display='block'; document.getElementById('bearer-placeholder').style.display='none';"
-                             onerror="this.style.display='none'; document.getElementById('bearer-placeholder').style.display='block';">
-                        <div id="bearer-placeholder" class="bearer-placeholder">
-                            <strong>RETRATO EN PREPARACIÓN</strong>
-                            Asigna la ruta en <code>"imagenModelo"</code> dentro del JSON de esta temporada para mostrar al modelo portando esta pieza.
-                        </div>
+                    <div class="spec-item">
+                        <span>ESTADO DE CONSERVACIÓN</span>
+                        <strong id="spec-status" style="color: var(--color-estado);">EDICIÓN MAESTRA</strong>
                     </div>
+                </div>
 
-                    <div>
-                        <p class="bearer-caption" id="bearer-caption">Estudio de proporción y porte dinástico en corte.</p>
+                <!-- Botones hacia Gumroad y YouTube -->
+                <div class="relic-actions">
+                    <a id="link-gumroad" href="https://gumroad.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-gumroad">
+                        &#10022; Adquirir Pieza
+                    </a>
+                    <a id="link-youtube" href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-youtube">
+                        &#9654; Ver Realización
+                    </a>
+                </div>
 
-                        <div class="relic-actions">
-                            <a id="link-gumroad-back" href="https://gumroad.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-gumroad">
-                                &#10022; Adquirir Pieza
-                            </a>
-                            <a id="link-youtube-back" href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="btn-action-link btn-youtube">
-                                &#9654; Ver Realización
-                            </a>
-                        </div>
-                    </div>
+                <!-- Navegación Paso de Página dentro del Catálogo Activo -->
+                <div class="folio-pagination">
+                    <button class="btn-page" onclick="CodexApp.prevPage()">&#9666; Anterior</button>
+                    <span class="folio-counter" id="folio-counter">I / II</span>
+                    <button class="btn-page" onclick="CodexApp.nextPage()">Siguiente &#9656;</button>
                 </div>
 
             </div>
@@ -965,8 +786,6 @@
                             material: "VITELA / ORO 24K",
                             estado: "EDICIÓN MAESTRA",
                             modeloGlb: "reliquia_real.glb",
-                            imagenModelo: "",
-                            pieImagenModelo: "Estudio de proporción y porte dinástico en corte.",
                             gumroadUrl: "https://gumroad.com",
                             youtubeUrl: "https://youtube.com",
                             orbita: "35deg 72deg 4.2m"
@@ -982,8 +801,6 @@
                             material: "ORO 24K / OBSIDIANA",
                             estado: "PIEZA ÚNICA",
                             modeloGlb: "reliquia_real.glb",
-                            imagenModelo: "",
-                            pieImagenModelo: "Estudio de proporción y porte dinástico en corte.",
                             gumroadUrl: "https://gumroad.com",
                             youtubeUrl: "https://youtube.com",
                             orbita: "35deg 72deg 4.2m"
@@ -999,7 +816,6 @@
             let currentCatalogType = 'libros'; // 'libros' | 'arte'
             let currentPageIdx = 0;
             let isAnimating = false;
-            let isCardFlipped = false;
 
             // Referencias al DOM
             const viewer = document.getElementById('royal-viewer');
@@ -1015,13 +831,6 @@
             function toRoman(num) {
                 const romans = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
                 return romans[num - 1] || String(num);
-            }
-
-            // Girar tarjeta 180° (Anverso <-> Reverso con imagen del modelo)
-            function flipCard(forceState = null) {
-                if (!codexPanel) return;
-                isCardFlipped = forceState !== null ? forceState : !isCardFlipped;
-                codexPanel.classList.toggle('is-flipped', isCardFlipped);
             }
 
             // Aplicar propiedades físicas de Oro 24k al modelo 3D cargado
@@ -1172,7 +981,6 @@
                 const item = listaActual[currentPageIdx];
 
                 const updateDOM = () => {
-                    // Cara frontal
                     document.getElementById('folio-label').textContent = item.folio;
                     document.getElementById('folio-code').textContent = item.codigo;
                     document.getElementById('relic-title').textContent = item.titulo;
@@ -1183,23 +991,6 @@
                     document.getElementById('link-youtube').href = item.youtubeUrl;
                     document.getElementById('folio-counter').textContent = `${toRoman(currentPageIdx + 1)} / ${toRoman(listaActual.length)}`;
 
-                    // Cara posterior (Imagen del modelo portando el objeto)
-                    document.getElementById('bearer-title').textContent = item.titulo;
-                    document.getElementById('bearer-caption').textContent = item.pieImagenModelo || "Estudio de proporción y porte dinástico en corte.";
-                    document.getElementById('link-gumroad-back').href = item.gumroadUrl;
-                    document.getElementById('link-youtube-back').href = item.youtubeUrl;
-
-                    const bearerImg = document.getElementById('bearer-img');
-                    const bearerPlaceholder = document.getElementById('bearer-placeholder');
-                    if (item.imagenModelo) {
-                        bearerImg.src = item.imagenModelo;
-                    } else {
-                        bearerImg.style.display = 'none';
-                        bearerImg.removeAttribute('src');
-                        bearerPlaceholder.style.display = 'block';
-                    }
-
-                    // Visor 3D
                     if (viewer && viewer.getAttribute('src') !== item.modeloGlb) {
                         viewer.classList.add('model-transitioning');
                         viewer.setAttribute('src', item.modeloGlb);
@@ -1208,9 +999,6 @@
                         viewer.cameraOrbit = item.orbita;
                     }
                 };
-
-                // Volver siempre a la cara frontal al cambiar de página, catálogo o temporada
-                flipCard(false);
 
                 if (!animate) {
                     updateDOM();
@@ -1292,7 +1080,6 @@
 
             return {
                 init,
-                flipCard,
                 selectSeason,
                 selectCatalogType,
                 nextPage,
