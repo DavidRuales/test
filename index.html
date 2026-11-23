@@ -127,14 +127,14 @@
         }
 
         /* ==========================================================================
-           MÓDULO 2: TEXTURA DE FOLIO Y MARCO DE FILIGRANA (ATMÓSFERA)
+           MÓDULO 2: TEXTURA DE FOLIO, REVELADO DE BURIL Y MARCO DE FILIGRANA
            ========================================================================== */
         #folio-canvas {
             position: fixed;
             inset: 0;
             z-index: 0;
             background: radial-gradient(circle at 50% 45%, var(--bg-luz-centro) 0%, var(--bg-luz-medio) 55%, var(--bg-sombra-borde) 100%);
-            opacity: 0.35; /* <--- AGREGA ESTA LÍNEA PARA BAJAR LA INTENSIDAD A UN 45% */
+            opacity: 0.35;
             pointer-events: none;
             transition: background 0.7s ease;
         }
@@ -146,6 +146,51 @@
             opacity: 0.28;
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.28'/%3E%3C/svg%3E");
+        }
+
+        /* Capa de Grabado en Superficie con Revelado Progresivo de Buril */
+        .engraving-layer {
+            position: fixed;
+            top: 14%;
+            right: 7%;
+            width: min(44vw, 520px);
+            height: min(68vh, 660px);
+            z-index: 1;
+            pointer-events: none;
+            background-image: url('grabado.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            /* Fusión sobre vitela: elimina el fondo negro dejando solo el trazo grabado */
+            mix-blend-mode: screen;
+            opacity: 0.16;
+            filter: contrast(1.25) brightness(1.08);
+            /* Difuminado suave en los bordes para integrar la ilustración en el pergamino */
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 42%, rgba(0,0,0,0) 76%);
+            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 42%, rgba(0,0,0,0) 76%);
+        }
+
+        .engraving-layer.buril-animating {
+            animation: burilReveal 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes burilReveal {
+            0% {
+                clip-path: polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%);
+                opacity: 0;
+            }
+            25% {
+                clip-path: polygon(0% 0%, 55% 0%, 20% 55%, 0% 40%);
+                opacity: 0.12;
+            }
+            65% {
+                clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 0% 85%);
+                opacity: 0.16;
+            }
+            100% {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+                opacity: 0.16;
+            }
         }
 
         .imperial-frame {
@@ -334,7 +379,7 @@
             box-shadow: 0 2px 10px rgba(var(--soberano-rgb), 0.3);
         }
 
-        /* Medallón Heráldico Real (Reemplazo del escáner óptico en esquina superior derecha) */
+        /* Medallón Heráldico Real */
         .heraldic-crest-box {
             pointer-events: auto;
             width: 56px;
@@ -624,14 +669,16 @@
             .manuscript-wrapper { max-width: 100%; }
             .manuscript-card { padding: 14px 16px; }
             .royal-controls { flex-wrap: wrap; justify-content: center; }
+            .engraving-layer { width: 70vw; right: 5%; opacity: 0.12; }
         }
     </style>
 </head>
 <body data-season="0">
 
-    <!-- MÓDULO 2: LIENZO DE FOLIO Y MARCO ILUMINADO -->
+    <!-- MÓDULO 2: LIENZO DE FOLIO, GRABADO DE BURIL Y MARCO ILUMINADO -->
     <div id="folio-canvas"></div>
     <div id="folio-grain"></div>
+    <div id="surface-engraving" class="engraving-layer buril-animating" aria-hidden="true"></div>
     <div class="imperial-frame"></div>
     <div class="corner-ornament corner-tl"></div>
     <div class="corner-ornament corner-tr"></div>
@@ -763,7 +810,8 @@
         const CodexApp = (() => {
             // Rutas de datos externos
             const CONFIG = {
-                indiceTemporadasUrl: 'data/temporadas.json'
+                indiceTemporadasUrl: 'data/temporadas.json',
+                grabadoPorDefecto: 'grabado.png'
             };
 
             // Respaldo mínimo en caso de abrir el HTML sin servidor o antes de subir /data/
@@ -786,6 +834,7 @@
                             material: "VITELA / ORO 24K",
                             estado: "EDICIÓN MAESTRA",
                             modeloGlb: "reliquia_real.glb",
+                            grabado: "grabado.png",
                             gumroadUrl: "https://gumroad.com",
                             youtubeUrl: "https://youtube.com",
                             orbita: "35deg 72deg 4.2m"
@@ -801,6 +850,7 @@
                             material: "ORO 24K / OBSIDIANA",
                             estado: "PIEZA ÚNICA",
                             modeloGlb: "reliquia_real.glb",
+                            grabado: "grabado.png",
                             gumroadUrl: "https://gumroad.com",
                             youtubeUrl: "https://youtube.com",
                             orbita: "35deg 72deg 4.2m"
@@ -821,6 +871,7 @@
             const viewer = document.getElementById('royal-viewer');
             const codexWrapper = document.getElementById('codex-wrapper');
             const codexPanel = document.getElementById('codex-panel');
+            const engravingLayer = document.getElementById('surface-engraving');
 
             const cameraPresets = {
                 general: { orbit: '35deg 72deg 4.2m', fov: '45deg' },
@@ -831,6 +882,16 @@
             function toRoman(num) {
                 const romans = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
                 return romans[num - 1] || String(num);
+            }
+
+            // Reiniciar animación de Revelado de Buril sobre el fondo
+            function dispararReveladoBuril(rutaGrabado) {
+                if (!engravingLayer) return;
+                const imgUrl = rutaGrabado || CONFIG.grabadoPorDefecto;
+                engravingLayer.style.backgroundImage = `url('${imgUrl}')`;
+                engravingLayer.classList.remove('buril-animating');
+                void engravingLayer.offsetWidth; // Forzar reflow para reiniciar la animación CSS
+                engravingLayer.classList.add('buril-animating');
             }
 
             // Aplicar propiedades físicas de Oro 24k al modelo 3D cargado
@@ -971,7 +1032,7 @@
                 renderItem(datosTemporada, true);
             }
 
-            // Renderizar la pieza o libro actual con transición de paso de página
+            // Renderizar la pieza o libro actual con transición de paso de página y revelado de buril
             function renderItem(datosTemporada, animate = true) {
                 const catalogos = datosTemporada.catalogos || fallbackTemporada.catalogos;
                 const listaActual = catalogos[currentCatalogType] || [];
@@ -990,6 +1051,8 @@
                     document.getElementById('link-gumroad').href = item.gumroadUrl;
                     document.getElementById('link-youtube').href = item.youtubeUrl;
                     document.getElementById('folio-counter').textContent = `${toRoman(currentPageIdx + 1)} / ${toRoman(listaActual.length)}`;
+
+                    dispararReveladoBuril(item.grabado);
 
                     if (viewer && viewer.getAttribute('src') !== item.modeloGlb) {
                         viewer.classList.add('model-transitioning');
