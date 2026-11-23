@@ -1,0 +1,58 @@
+{
+  "libros": [
+    {
+      "folio": "TEMPORADA II X TIEMPO II • PURPURA REGIA X ANCESTRAL",
+      "codigo": "[0x2A-LIBER]",
+      "titulo": "Códice de Tiro y Granate",
+      "inicial": "T",
+      "descripcion": "eñido con el tinte púrpura reservado exclusivamente a la familia imperial y caligrafiado en oro rosado, este manuscrito de Purpura Regia x Ancestral narra los decretos de la corte dentro de Temporada II x Tiempo II.",
+      "material": "PÓRFIDO IMPERIAL / PINTURA & SOLIDOS",
+      "estado": "ARCHIVO IMPERIAL",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "25deg 70deg 4.1m"
+    },
+    {
+      "folio": "TEMPORADA II X TIEMPO II • PURPURA REGIA X ANCESTRAL",
+      "codigo": "[0x2B-LIBER]",
+      "titulo": "Anales de la Cámara Púrpura",
+      "inicial": "R",
+      "descripcion": "egistro dinástico de sucesiones y tratados imperiales bajo Purpura Regia x Ancestral en Temporada II x Tiempo II, iluminado con pigmentos de granate molido y pan de oro rosado.",
+      "material": "MALAQUITA Y MARFIL / IMPRESIONES Y MODA",
+      "estado": "SELLADO IMPERIAL",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "10deg 66deg 3.9m"
+    }
+  ],
+  "arte": [
+    {
+      "folio": "TEMPORADA II X TIEMPO II • PÓRFIDO IMPERIAL X PINTURA & SOLIDOS",
+      "codigo": "[0x2A-ARS]",
+      "titulo": "Relicario de Pórfido Rojo",
+      "inicial": "E",
+      "descripcion": "sculpido en piedra de pórfido imperial con filigranas de oro rosado, esta pieza de Purpura Regia x Ancestral en Temporada II x Tiempo II simboliza la soberanía y el equilibrio de los sólidos.",
+      "material": "PÓRFIDO IMPERIAL / PINTURA & SOLIDOS",
+      "estado": "CUSTODIADO",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "-25deg 75deg 3.9m"
+    },
+    {
+      "folio": "TEMPORADA II X TIEMPO II • PURPURA REGIA X ANCESTRAL",
+      "codigo": "[0x2B-ARS]",
+      "titulo": "Diadema de la Corte Bizantina",
+      "inicial": "F",
+      "descripcion": "orjada en oro rosado de veinticuatro quilates con engastes de granate imperial y perlas orientales, emblema supremo de Purpura Regia x Ancestral en Temporada II x Tiempo II.",
+      "material": "LAPIZLÁZULI Y PLATA / LUJO Y DETALLE",
+      "estado": "PIEZA ÚNICA",
+      "modeloGlb": "reliquia_real.glb",
+      "gumroadUrl": "https://gumroad.com",
+      "youtubeUrl": "https://youtube.com",
+      "orbita": "30deg 72deg 4.0m"
+    }
+  ]
+}
