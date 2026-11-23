@@ -1,12 +1,12 @@
 {
   "libros": [
     {
-      "folio": "TEMPORADA III X TIEMPO III • VIRIDIS AETHER SUBLIME",
+      "folio": "FOLIO I • HERBARIO REAL",
       "codigo": "[0x3A-LIBER]",
       "titulo": "Liber Viridis de los Zares",
       "inicial": "I",
-      "descripcion": "lumbrado con malaquita pulverizada y pan de latón dorado, este tomo de Viridis Aether Sublime en Temporada III x Tiempo III recoge los tratados de alquimia y estética de la corte.",
-      "material": "MALAQUITA Y MARFIL / IMPRESIONES Y MODA",
+      "descripcion": "lumbrado con malaquita pulverizada de los montes Urales y pan de latón dorado, este tomo recoge los secretos alquímicos de la longevidad real.",
+      "material": "MARFIL / MALAQUITA",
       "estado": "COLECCIÓN ZARINA",
       "modeloGlb": "reliquia_real.glb",
       "gumroadUrl": "https://gumroad.com",
@@ -14,12 +14,12 @@
       "orbita": "40deg 68deg 4.0m"
     },
     {
-      "folio": "TEMPORADA III X TIEMPO III • VITELA IMPERIAL X ARTE LINEAL & ESCRITO",
+      "folio": "FOLIO II • CRÓNICA BOTÁNICA",
       "codigo": "[0x3B-LIBER]",
       "titulo": "Tratado del Jardín Imperial",
       "inicial": "E",
-      "descripcion": "scrito sobre vitela de marfil con tintas de verdete y oro bruñido dentro de Viridis Aether Sublime en Temporada III x Tiempo III, cataloga las especies y trazos del jardín real.",
-      "material": "VITELA IMPERIAL / ARTE LINEAL & ESCRITO",
+      "descripcion": "scrito sobre vitela de marfil con tintas de verdete y oro bruñido, cataloga las especies sagradas cultivadas en los invernaderos de invierno.",
+      "material": "VITELA MARFIL / LATÓN",
       "estado": "EDICIÓN PALACIEGA",
       "modeloGlb": "reliquia_real.glb",
       "gumroadUrl": "https://gumroad.com",
@@ -29,12 +29,12 @@
   ],
   "arte": [
     {
-      "folio": "TEMPORADA III X TIEMPO III • VIRIDIS AETHER SUBLIME",
+      "folio": "PIEZA I • ARTE PALACIEGO",
       "codigo": "[0x3A-ARS]",
       "titulo": "Esfera Armilar de Esmeralda",
       "inicial": "O",
-      "descripcion": "bra de orfebrería palaciega donde los meridianos de oro envuelven un núcleo de malaquita vetada, celebrando Viridis Aether Sublime en Temporada III x Tiempo III.",
-      "material": "MALAQUITA Y MARFIL / IMPRESIONES Y MODA",
+      "descripcion": "bra de orfebrería palaciega donde los meridianos de oro envuelven un núcleo de malaquita vetada, celebrando el dominio sobre la naturaleza.",
+      "material": "MALAQUITA / ORO 24K",
       "estado": "EN EXHIBICIÓN",
       "modeloGlb": "reliquia_real.glb",
       "gumroadUrl": "https://gumroad.com",
@@ -42,12 +42,12 @@
       "orbita": "10deg 80deg 3.6m"
     },
     {
-      "folio": "TEMPORADA III X TIEMPO III • PÓRFIDO IMPERIAL X PINTURA & SOLIDOS",
+      "folio": "PIEZA II • ARTE PALACIEGO",
       "codigo": "[0x3B-ARS]",
       "titulo": "Cetro de Malaquita de los Urales",
       "inicial": "F",
-      "descripcion": "orjado con vetas minerales de malaquita imperial engastadas en oro cincelado, une la fuerza de Viridis Aether Sublime en Temporada III x Tiempo III con la solidez escultórica.",
-      "material": "PÓRFIDO IMPERIAL / PINTURA & SOLIDOS",
+      "descripcion": "orjado con vetas minerales de malaquita imperial engastadas en oro cincelado, simboliza la armonía entre la tierra y la corona soberana.",
+      "material": "MALAQUITA / ORO CINCELADO",
       "estado": "CUSTODIADO",
       "modeloGlb": "reliquia_real.glb",
       "gumroadUrl": "https://gumroad.com",
