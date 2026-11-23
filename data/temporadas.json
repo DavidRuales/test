@@ -2,29 +2,29 @@
   {
     "id": 0,
     "sello": "I",
-    "boton": "I. Sol Invictus x Esencial",
-    "subtitulo": "Temporada I x Tiempo I • Sol Invictus x Esencial (Vitela Imperial x Arte Lineal & Escrito)",
+    "boton": "I. Sol Invictus",
+    "subtitulo": "Temporada I • Vitela Imperial (Sol Invictus)",
     "archivo": "data/temporada-1.json"
   },
   {
     "id": 1,
     "sello": "II",
-    "boton": "II. Purpura Regia x Ancestral",
-    "subtitulo": "Temporada II x Tiempo II • Purpura Regia x Ancestral (Pórfido Imperial x Pintura & Solidos)",
+    "boton": "II. Purpura Regia",
+    "subtitulo": "Temporada II • Pórfido Imperial (Purpura Regia)",
     "archivo": "data/temporada-2.json"
   },
   {
     "id": 2,
     "sello": "III",
-    "boton": "III. Viridis Aether Sublime",
-    "subtitulo": "Temporada III x Tiempo III • Viridis Aether Sublime (Malaquita y Marfil x Impresiones y Moda)",
+    "boton": "III. Viridis Aether",
+    "subtitulo": "Temporada III • Malaquita y Marfil (Viridis Aether)",
     "archivo": "data/temporada-3.json"
   },
   {
     "id": 3,
     "sello": "IV",
-    "boton": "IV. Caelum Noctus x Legado",
-    "subtitulo": "Temporada IV x Tiempo IV • Caelum Noctus x Legado (Lapizlázuli y Plata x Lujo y Detalle)",
+    "boton": "IV. Caelum Noctis",
+    "subtitulo": "Temporada IV • Lapislázuli y Plata (Caelum Noctis)",
     "archivo": "data/temporada-4.json"
   }
 ]
