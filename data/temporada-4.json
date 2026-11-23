@@ -1,15 +1,15 @@
 {
   "sello": "IV",
-  "subtitulo": "Temporada IV x Tiempo IV • Caelum Noctus x Legado (Lapizlázuli y Plata x Lujo y Detalle)",
+  "subtitulo": "Temporada IV • Lapislázuli Celeste y Plata (Caelum Noctis)",
   "catalogos": {
     "libros": [
       {
-        "folio": "TEMPORADA IV X TIEMPO IV • CAELUM NOCTUS X LEGADO",
+        "folio": "FOLIO I • ATLAS CELESTE",
         "codigo": "[0x4A-LIBER]",
         "titulo": "Cartografía del Cielo Boreal",
         "inicial": "L",
-        "descripcion": "áminas de azul cobalto profundo estampadas con plata bruñida que registran la navegación estelar de Caelum Noctus x Legado en Temporada IV x Tiempo IV.",
-        "material": "LAPIZLÁZULI Y PLATA / LUJO Y DETALLE",
+        "descripcion": "áminas de azul cobalto profundo estampadas con plata bruñida que registran la navegación estelar y los meridianos secretos de los observatorios reales.",
+        "material": "COBALTO / PLATA FINA",
         "estado": "EDICIÓN ESTELAR",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
@@ -17,12 +17,12 @@
         "orbita": "0deg 65deg 4.2m"
       },
       {
-        "folio": "TEMPORADA IV X TIEMPO IV • VITELA IMPERIAL X ARTE LINEAL & ESCRITO",
+        "folio": "FOLIO II • CRÓNICA SIDERAL",
         "codigo": "[0x4B-LIBER]",
         "titulo": "Tratado de las Mareas Cósmicas",
         "inicial": "E",
-        "descripcion": "scrito sobre papel celeste de hilo con tintas de plata oxidada, este códice de Caelum Noctus x Legado en Temporada IV x Tiempo IV calcula el retorno de los ciclos dinásticos.",
-        "material": "VITELA IMPERIAL / ARTE LINEAL & ESCRITO",
+        "descripcion": "scrito sobre papel celeste de hilo con tintas de plata oxidada, este códice calcula el retorno de los cometas dinásticos y la armonía de las esferas.",
+        "material": "PAPEL CELESTE / PLATA",
         "estado": "ARCHIVO REAL",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
@@ -32,12 +32,12 @@
     ],
     "arte": [
       {
-        "folio": "TEMPORADA IV X TIEMPO IV • LAPIZLÁZULI Y PLATA X LUJO Y DETALLE",
+        "folio": "PIEZA I • ARTE ASTRAL",
         "codigo": "[0x4A-ARS]",
         "titulo": "Cronómetro de las Pléyades",
         "inicial": "A",
-        "descripcion": "nillos concéntricos de plata esterlina y oro blanco suspendidos en un campo magnético que encarnan Caelum Noctus x Legado en Temporada IV x Tiempo IV con precisión de detalle.",
-        "material": "LAPIZLÁZULI Y PLATA / LUJO Y DETALLE",
+        "descripcion": "nillos concéntricos de plata esterlina y oro blanco suspendidos en un campo magnético que mide los ciclos seculares del reino con precisión astronómica.",
+        "material": "PLATA / ORO BLANCO",
         "estado": "SINCRONIZADO",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
@@ -45,12 +45,12 @@
         "orbita": "-30deg 55deg 4.0m"
       },
       {
-        "folio": "TEMPORADA IV X TIEMPO IV • PÓRFIDO IMPERIAL X PINTURA & SOLIDOS",
+        "folio": "PIEZA II • ARTE CELESTE",
         "codigo": "[0x4B-ARS]",
         "titulo": "Esfera de Lapislázuli Nocturno",
         "inicial": "T",
-        "descripcion": "allada en piedra de lapislázuli con incrustaciones de plata pura que dibujan las constelaciones regias de Caelum Noctus x Legado en Temporada IV x Tiempo IV.",
-        "material": "PÓRFIDO IMPERIAL / PINTURA & SOLIDOS",
+        "descripcion": "allada en piedra de lapislázuli de Badajshán con incrustaciones de plata pura que dibujan las constelaciones regias del hemisferio norte.",
+        "material": "LAPISLÁZULI / PLATA",
         "estado": "CUSTODIADO",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
