@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vidda Sureal | Archivo Dinástico</title>
+    <title>Codex Regalis | Archivo Dinástico</title>
     
     <!-- Tipografías Reales: Cinzel Decorative para títulos iluminados, Cormorant Garamond para manuscrito, Space Mono para códigos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
            ========================================================================== */
         :root,
         [data-season="0"] {
-            /* TEMPORADA I: VITELA IMPERIAL (SOL INVICTUS) */
+            /* TEMPORADA I: SOL INVICTUS X ESENCIAL */
             --bg-lienzo: #f3ead8;
             --bg-luz-centro: rgba(255, 252, 245, 0.88);
             --bg-luz-medio: rgba(243, 234, 216, 0.42);
@@ -46,7 +46,7 @@
         }
 
         [data-season="1"] {
-            /* TEMPORADA II: PÓRFIDO IMPERIAL Y ORO ROSADO (PURPURA REGIA) */
+            /* TEMPORADA II: PURPURA REGIA X ANCESTRAL */
             --bg-lienzo: #f2e6ea;
             --bg-luz-centro: rgba(255, 248, 250, 0.88);
             --bg-luz-medio: rgba(242, 230, 234, 0.45);
@@ -67,7 +67,7 @@
         }
 
         [data-season="2"] {
-            /* TEMPORADA III: MALAQUITA PALACIEGA Y MARFIL (VIRIDIS AETHER) */
+            /* TEMPORADA III: VIRIDIS AETHER SUBLIME */
             --bg-lienzo: #edf2ec;
             --bg-luz-centro: rgba(250, 253, 249, 0.90);
             --bg-luz-medio: rgba(237, 242, 236, 0.45);
@@ -88,7 +88,7 @@
         }
 
         [data-season="3"] {
-            /* TEMPORADA IV: LAPISLÁZULI CELESTE Y PLATA (CAELUM NOCTIS) */
+            /* TEMPORADA IV: CAELUM NOCTIS X LEGADO */
             --bg-lienzo: #e8eef5;
             --bg-luz-centro: rgba(247, 251, 255, 0.90);
             --bg-luz-medio: rgba(232, 238, 245, 0.45);
@@ -134,7 +134,7 @@
             inset: 0;
             z-index: 0;
             background: radial-gradient(circle at 50% 45%, var(--bg-luz-centro) 0%, var(--bg-luz-medio) 55%, var(--bg-sombra-borde) 100%);
-            opacity: 0.35; /* <--- AGREGA ESTA LÍNEA PARA BAJAR LA INTENSIDAD A UN 45% */
+            opacity: 0.35;
             pointer-events: none;
             transition: background 0.7s ease;
         }
@@ -334,7 +334,7 @@
             box-shadow: 0 2px 10px rgba(var(--soberano-rgb), 0.3);
         }
 
-        /* Medallón Heráldico Real (Reemplazo del escáner óptico en esquina superior derecha) */
+        /* Medallón Heráldico Real */
         .heraldic-crest-box {
             pointer-events: auto;
             width: 56px;
@@ -395,7 +395,7 @@
             opacity: 0.25;
         }
 
-        /* Selector Dual de Catálogo (Libros vs Piezas de Arte) sobre la descripción */
+        /* Selector Dual de Catálogo */
         .catalog-switcher {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -669,20 +669,20 @@
             <div class="crest-block">
                 <div class="royal-seal" id="royal-seal" title="Sello Imperial">I</div>
                 <div class="title-group">
-                    <h1>Vidda Sureal</h1>
-                    <div class="rubric" id="season-subtitle">Temporada I &bull; Vitela Imperial</div>
+                    <h1>Codex Regalis</h1>
+                    <div class="rubric" id="season-subtitle">Temporada I x Tiempo I &bull; Sol Invictus x Esencial</div>
                 </div>
             </div>
 
             <!-- Selector de las 4 Temporadas -->
             <div class="season-selector" id="season-selector" role="tablist" aria-label="Temporadas Reales">
-                <button class="btn-season active" onclick="CodexApp.selectSeason(0, this)">I. Sol Invictus</button>
-                <button class="btn-season" onclick="CodexApp.selectSeason(1, this)">II. Purpura Regia</button>
-                <button class="btn-season" onclick="CodexApp.selectSeason(2, this)">III. Viridis Aether</button>
-                <button class="btn-season" onclick="CodexApp.selectSeason(3, this)">IV. Caelum Noctis</button>
+                <button class="btn-season active" onclick="CodexApp.selectSeason(0, this)">I. Sol Invictus x Esencial</button>
+                <button class="btn-season" onclick="CodexApp.selectSeason(1, this)">II. Purpura Regia x Ancestral</button>
+                <button class="btn-season" onclick="CodexApp.selectSeason(2, this)">III. Viridis Aether Sublime</button>
+                <button class="btn-season" onclick="CodexApp.selectSeason(3, this)">IV. Caelum Noctus x Legado</button>
             </div>
 
-            <!-- Medallón Heráldico Real: sube 'assets/escudo-real.png' para mostrar tu propio escudo o usa el emblema imperial por defecto -->
+            <!-- Medallón Heráldico Real -->
             <div class="heraldic-crest-box" title="Escudo de Armas Real">
                 <img id="heraldic-img" src="assets/escudo-real.png" alt="Escudo Real"
                      onerror="this.style.display='none'; document.getElementById('heraldic-svg').style.display='block';">
@@ -697,27 +697,27 @@
         <aside class="manuscript-wrapper" id="codex-wrapper">
             <div class="manuscript-card" id="codex-panel">
                 
-                <!-- Selector de Catálogo sobre la descripción: Libros vs Piezas de Arte -->
+                <!-- Selector de Catálogo sobre la descripción -->
                 <div class="catalog-switcher" role="tablist" aria-label="Catálogos de Temporada">
-                    <button class="btn-catalog-type active" id="tab-libros" onclick="CodexApp.selectCatalogType('libros')">&#128220; Códices y Libros</button>
-                    <button class="btn-catalog-type" id="tab-arte" onclick="CodexApp.selectCatalogType('arte')">&#9813; Piezas de Arte</button>
+                    <button class="btn-catalog-type active" id="tab-libros" onclick="CodexApp.selectCatalogType('libros')">&#128220; Vitela Imperial x Arte Lineal &amp; Escrito</button>
+                    <button class="btn-catalog-type" id="tab-arte" onclick="CodexApp.selectCatalogType('arte')">&#9813; Pórfido Imperial x Pintura &amp; Solidos</button>
                 </div>
 
                 <div class="folio-tag">
-                    <span id="folio-label">FOLIO I &bull; CÓDICE ILUMINADO</span>
+                    <span id="folio-label">TEMPORADA I X TIEMPO I &bull; SOL INVICTUS X ESENCIAL</span>
                     <span id="folio-code" style="color: var(--color-soberano);">[0x1A-LIBER]</span>
                 </div>
                 
-                <h2 id="relic-title">Grimorio del Sol Invicto</h2>
+                <h2 id="relic-title">Vitela Imperial x Arte Lineal &amp; Escrito</h2>
                 
                 <p class="illuminated-text" id="relic-desc">
-                    <span class="drop-cap">E</span>scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.
+                    <span class="drop-cap">S</span>ol Invictus x Esencial, integrado en Temporada I x Tiempo I bajo Vitela Imperial x Arte Lineal &amp; Escrito, reúne los trazos puros, la caligrafía esencial y las formas fundacionales del archivo.
                 </p>
                 
                 <div class="relic-specs">
                     <div class="spec-item">
                         <span>MATERIA PRIMA</span>
-                        <strong id="spec-material">VITELA / ORO 24K</strong>
+                        <strong id="spec-material">VITELA / ARTE LINEAL &amp; ESCRITO</strong>
                     </div>
                     <div class="spec-item">
                         <span>ESTADO DE CONSERVACIÓN</span>
@@ -766,24 +766,61 @@
                 indiceTemporadasUrl: 'data/temporadas.json'
             };
 
-            // Respaldo mínimo en caso de abrir el HTML sin servidor o antes de subir /data/
+            // Respaldo con las temporadas, tiempos y colecciones solicitadas
             const fallbackIndice = [
-                { id: 0, sello: "I", boton: "I. Sol Invictus", subtitulo: "Temporada I • Vitela Imperial (Sol Invictus)", archivo: "data/temporada-1.json" },
-                { id: 1, sello: "II", boton: "II. Purpura Regia", subtitulo: "Temporada II • Pórfido Imperial (Purpura Regia)", archivo: "data/temporada-2.json" },
-                { id: 2, sello: "III", boton: "III. Viridis Aether", subtitulo: "Temporada III • Malaquita y Marfil (Viridis Aether)", archivo: "data/temporada-3.json" },
-                { id: 3, sello: "IV", boton: "IV. Caelum Noctis", subtitulo: "Temporada IV • Lapislázuli y Plata (Caelum Noctis)", archivo: "data/temporada-4.json" }
+                {
+                    id: 0,
+                    sello: "I",
+                    boton: "I. Sol Invictus x Esencial",
+                    subtitulo: "Temporada I x Tiempo I • Sol Invictus x Esencial",
+                    archivo: "data/temporada-1.json"
+                },
+                {
+                    id: 1,
+                    sello: "II",
+                    boton: "II. Purpura Regia x Ancestral",
+                    subtitulo: "Temporada II x Tiempo II • Purpura Regia x Ancestral",
+                    archivo: "data/temporada-2.json"
+                },
+                {
+                    id: 2,
+                    sello: "III",
+                    boton: "III. Viridis Aether Sublime",
+                    subtitulo: "Temporada III x Tiempo III • Viridis Aether Sublime",
+                    archivo: "data/temporada-3.json"
+                },
+                {
+                    id: 3,
+                    sello: "IV",
+                    boton: "IV. Caelum Noctus x Legado",
+                    subtitulo: "Temporada IV x Tiempo IV • Caelum Noctus x Legado",
+                    archivo: "data/temporada-4.json"
+                }
             ];
 
             const fallbackTemporada = {
                 catalogos: {
                     libros: [
                         {
-                            folio: "FOLIO I • CÓDICE ILUMINADO",
+                            folio: "TEMPORADA I X TIEMPO I • SOL INVICTUS X ESENCIAL",
                             codigo: "[0x1A-LIBER]",
-                            titulo: "Grimorio del Sol Invicto",
-                            inicial: "E",
-                            descripcion: "scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.",
-                            material: "VITELA / ORO 24K",
+                            titulo: "Vitela Imperial x Arte Lineal & Escrito",
+                            inicial: "S",
+                            descripcion: "ol Invictus x Esencial en Temporada I x Tiempo I: estudio de Vitela Imperial x Arte Lineal & Escrito donde convergen el trazo lineal, la escritura manuscrita y la esencia fundacional.",
+                            material: "VITELA / ARTE LINEAL & ESCRITO",
+                            estado: "EDICIÓN MAESTRA",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com",
+                            youtubeUrl: "https://youtube.com",
+                            orbita: "35deg 72deg 4.2m"
+                        },
+                        {
+                            folio: "TEMPORADA II X TIEMPO II • PURPURA REGIA X ANCESTRAL",
+                            codigo: "[0x2B-LIBER]",
+                            titulo: "Malaquita y Marfil x Impresiones y Moda",
+                            inicial: "P",
+                            descripcion: "urpura Regia x Ancestral en Temporada II x Tiempo II: memoria ancestral y crónicas de Malaquita y Marfil x Impresiones y Moda con estética editorial y presencia de corte.",
+                            material: "MALAQUITA & MARFIL / IMPRESIONES & MODA",
                             estado: "EDICIÓN MAESTRA",
                             modeloGlb: "reliquia_real.glb",
                             gumroadUrl: "https://gumroad.com",
@@ -793,12 +830,25 @@
                     ],
                     arte: [
                         {
-                            folio: "PIEZA I • ARTE REGIO",
-                            codigo: "[0x1A-ARS]",
-                            titulo: "Orbe de la Corona Eterna",
-                            inicial: "F",
-                            descripcion: "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta escultura custodia los anillos de resonancia astral del imperio.",
-                            material: "ORO 24K / OBSIDIANA",
+                            folio: "TEMPORADA III X TIEMPO III • VIRIDIS AETHER SUBLIME",
+                            codigo: "[0x3C-ARS]",
+                            titulo: "Pórfido Imperial x Pintura & Solidos",
+                            inicial: "V",
+                            descripcion: "iridis Aether Sublime en Temporada III x Tiempo III: composición de Pórfido Imperial x Pintura & Solidos que articula volúmenes geométricos, materia densa y equilibrio cromático.",
+                            material: "PÓRFIDO / PINTURA & SOLIDOS",
+                            estado: "PIEZA ÚNICA",
+                            modeloGlb: "reliquia_real.glb",
+                            gumroadUrl: "https://gumroad.com",
+                            youtubeUrl: "https://youtube.com",
+                            orbita: "35deg 72deg 4.2m"
+                        },
+                        {
+                            folio: "TEMPORADA IV X TIEMPO IV • CAELUM NOCTIS X LEGADO",
+                            codigo: "[0x4D-ARS]",
+                            titulo: "Lapizlázuli y Plata x Lujo y Detalle",
+                            inicial: "C",
+                            descripcion: "aelum Noctis x Legado en Temporada IV x Tiempo IV: culminación en Lapizlázuli y Plata x Lujo y Detalle donde el acabado mineral, la plata y el detalle definen el legado.",
+                            material: "LAPISLÁZULI & PLATA / LUJO & DETALLE",
                             estado: "PIEZA ÚNICA",
                             modeloGlb: "reliquia_real.glb",
                             gumroadUrl: "https://gumroad.com",
