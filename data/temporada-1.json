@@ -1,15 +1,15 @@
 {
   "sello": "I",
-  "subtitulo": "Temporada I x Tiempo I • Sol Invictus x Esencial (Vitela Imperial x Arte Lineal & Escrito)",
+  "subtitulo": "Temporada I • Vitela Imperial (Sol Invictus)",
   "catalogos": {
     "libros": [
       {
-        "folio": "TEMPORADA I X TIEMPO I • VITELA IMPERIAL X ARTE LINEAL & ESCRITO",
+        "folio": "FOLIO I • CÓDICE ILUMINADO",
         "codigo": "[0x1A-LIBER]",
-        "titulo": "Grimorio del Sol Invictus x Esencial",
+        "titulo": "Grimorio del Sol Invicto",
         "inicial": "E",
-        "descripcion": "scrito sobre Vitela Imperial x Arte Lineal & Escrito con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural de Sol Invictus x Esencial compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.",
-        "material": "VITELA IMPERIAL / ARTE LINEAL & ESCRITO",
+        "descripcion": "scrito sobre vitela curada con pigmentos de lapislázuli y pan de oro de veinticuatro quilates, este volumen inaugural compila los tratados de geometría sagrada y heráldica solar de la primera dinastía.",
+        "material": "VITELA / ORO 24K",
         "estado": "EDICIÓN MAESTRA",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
@@ -18,12 +18,12 @@
         "imagenModelo": "vid/e2c1o1.jpg"
       },
       {
-        "folio": "TEMPORADA I X TIEMPO I • TRATADO ASTRAL",
+        "folio": "FOLIO II • TRATADO ASTRAL",
         "codigo": "[0x1B-LIBER]",
         "titulo": "Compendio de las Esferas",
         "inicial": "C",
-        "descripcion": "artografía celeste iluminada bajo el sello Vitela Imperial x Arte Lineal & Escrito con bermellón de cinabrio y tintas ferrogálicas. Detalla las conjunciones planetarias que rigen la coronación de los soberanos.",
-        "material": "VITELA IMPERIAL / ARTE LINEAL & ESCRITO",
+        "descripcion": "artografía celeste iluminada con bermellón de cinabrio y tintas ferrogálicas. Detalla las conjunciones planetarias que rigen la coronación de los soberanos.",
+        "material": "PERGAMINO / CINABRIO",
         "estado": "SELLADO REAL",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
@@ -33,12 +33,12 @@
     ],
     "arte": [
       {
-        "folio": "TEMPORADA I X TIEMPO I • SOL INVICTUS X ESENCIAL",
+        "folio": "PIEZA I • ARTE REGIO",
         "codigo": "[0x1A-ARS]",
         "titulo": "Orbe de la Corona Eterna",
         "inicial": "F",
-        "descripcion": "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta escultura de Sol Invictus x Esencial custodia los anillos de resonancia astral del imperio.",
-        "material": "VITELA IMPERIAL / ARTE LINEAL & ESCRITO",
+        "descripcion": "orjada en oro solar de veinticuatro quilates sobre un basamento de obsidiana volcánica, esta escultura custodia los anillos de resonancia astral del imperio.",
+        "material": "ORO 24K / OBSIDIANA",
         "estado": "PIEZA ÚNICA",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
@@ -46,12 +46,12 @@
         "orbita": "35deg 72deg 4.2m"
       },
       {
-        "folio": "TEMPORADA I X TIEMPO I • ARTE REGIO",
+        "folio": "PIEZA II • ARTE REGIO",
         "codigo": "[0x1B-ARS]",
         "titulo": "Astrolabio del Primer Trono",
         "inicial": "I",
-        "descripcion": "nstrumento escultórico de precisión armilar concebido para alinear la sala del trono con el solsticio de verano dentro de la colección Sol Invictus x Esencial.",
-        "material": "VITELA IMPERIAL / ARTE LINEAL & ESCRITO",
+        "descripcion": "nstrumento escultórico de precisión armilar concebido para alinear la sala del trono con el solsticio de verano mediante prismas de cristal de roca.",
+        "material": "ORO PULIDO / CUARZO",
         "estado": "ACTIVO (99.8%)",
         "modeloGlb": "reliquia_real.glb",
         "gumroadUrl": "https://gumroad.com",
